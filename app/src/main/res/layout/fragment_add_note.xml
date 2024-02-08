@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <com.google.android.material.appbar.MaterialToolbar
+          android:id="@+id/materialToolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent">
+
+          <com.google.android.material.imageview.ShapeableImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:src="@drawable/icon_back" />
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="30dp"
+              android:maxLength="20"
+              android:maxLines="1"
+              android:text="şsdşsddasdsadassd11111232323123" />
+
+          <com.google.android.material.imageview.ShapeableImageView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="end"
+              android:layout_marginEnd="10dp"
+              android:src="@drawable/icon_fav_outline" />
+
+      </com.google.android.material.appbar.MaterialToolbar>
+
+      <EditText
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          android:background="@null"
+          android:gravity="top"
+          android:padding="10dp"
+          android:text="asdasdasasdfffffffffffffffffffffffffffffffffffffffffffffabcde"
+          app:layout_constraintBottom_toTopOf="@+id/materialButton"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/materialButton"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginHorizontal="5dp"
+          android:layout_marginBottom="5dp"
+          android:text="KAYDET"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
