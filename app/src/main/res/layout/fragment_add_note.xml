@@ -25,6 +25,7 @@
               android:src="@drawable/icon_back" />
 
           <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/title"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_marginStart="30dp"
@@ -42,6 +43,7 @@
       </com.google.android.material.appbar.MaterialToolbar>
 
       <EditText
+          android:id="@+id/content"
           android:layout_width="0dp"
           android:layout_height="0dp"
           android:background="@null"

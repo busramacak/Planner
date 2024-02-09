@@ -1,5 +1,6 @@
-package com.bmprj.planner
+package com.bmprj.planner.ui.note
 
+import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseAdapter
 import com.bmprj.planner.databinding.NoteListLayoutBinding
 import com.bmprj.planner.model.Note

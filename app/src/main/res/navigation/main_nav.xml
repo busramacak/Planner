@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/notesFragment"
-        android:name="com.bmprj.planner.NotesFragment"
+        android:name="com.bmprj.planner.ui.note.NotesFragment"
         android:label="NotesFragment"
         tools:layout="@layout/fragment_notes">
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="com.bmprj.planner.CalendarFragment"
+        android:name="com.bmprj.planner.ui.CalendarFragment"
         android:label="CalendarFragment"
         tools:layout="@layout/fragment_calendar"/>
     <fragment
         android:id="@+id/addNoteFragment"
-        android:name="com.bmprj.planner.AddNoteFragment"
+        android:name="com.bmprj.planner.ui.addNote.AddNoteFragment"
         android:label="AddNoteFragment"
         tools:layout="@layout/fragment_add_note"/>
 </navigation>
