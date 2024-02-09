@@ -3,6 +3,7 @@ package com.bmprj.planner.repository
 
 import com.bmprj.planner.data.NoteDao
 import com.bmprj.planner.model.Note
+import com.bmprj.planner.utils.UiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -18,8 +19,8 @@ class NoteRepositoryImpl @Inject constructor(
         emit(noteDao.getNotes())
     }
 
-    override suspend fun getNote(): Flow<Note> =flow {
-        emit(noteDao.getNote())
+    override suspend fun getNote(noteId:Int): Flow<UiState<Note>> =flow {
+        emit(noteDao.getNote(noteId))
     }
 
 

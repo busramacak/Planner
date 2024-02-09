@@ -23,5 +23,9 @@
         android:id="@+id/addNoteFragment"
         android:name="com.bmprj.planner.ui.addNote.AddNoteFragment"
         android:label="AddNoteFragment"
-        tools:layout="@layout/fragment_add_note"/>
+        tools:layout="@layout/fragment_add_note">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

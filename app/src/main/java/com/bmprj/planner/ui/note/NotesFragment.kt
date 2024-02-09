@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentNotesBinding
+import com.bmprj.planner.model.Note
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,10 +38,15 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
                 LinearLayoutManager.VERTICAL, false)
             noteListRecyclerView.adapter=noteAdapter
         }
+        noteAdapter.setOnClickListener { onNoteClicked(it) }
+    }
+
+    private fun onNoteClicked(note: Note) {
+        val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.noteId)
     }
 
     private fun addNoteClick(){
-        val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment()
+        val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
         findNavController().navigate(action)
     }
 
