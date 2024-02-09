@@ -30,8 +30,8 @@
               android:layout_height="wrap_content"
               android:layout_marginStart="30dp"
               android:maxLength="20"
-              android:maxLines="1"
-              android:text="şsdşsddasdsadassd11111232323123" />
+              android:hint="Note Title"
+              android:maxLines="1" />
 
           <com.google.android.material.imageview.ShapeableImageView
               android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
           android:background="@null"
           android:gravity="top"
           android:padding="10dp"
-          android:text="asdasdasasdfffffffffffffffffffffffffffffffffffffffffffffabcde"
+          android:hint="Note"
           app:layout_constraintBottom_toTopOf="@+id/materialButton"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"

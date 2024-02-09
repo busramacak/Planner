@@ -10,9 +10,10 @@ import com.bmprj.planner.model.Note
 interface NoteDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNote(note: Entity)
+    suspend fun insertNote(note: Note)
     @Query("Select * From note")
     suspend fun getNotes():List<Note>
     
-
+    @Query("Select * From note Where noteId")
+    suspend fun getNote():Note
 }

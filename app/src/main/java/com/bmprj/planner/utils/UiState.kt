@@ -1,4 +1,4 @@
-package com.bmprj.planner
+package com.bmprj.planner.utils
 
 sealed class UiState<out T> {
     object Loading : UiState<Nothing>()

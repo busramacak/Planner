@@ -2,7 +2,6 @@ package com.bmprj.planner.ui.addNote
 
 import androidx.lifecycle.viewModelScope
 import com.bmprj.planner.base.BaseViewModel
-import com.bmprj.planner.data.Entity
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.repository.NoteRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +17,7 @@ class AddNoteViewModel @Inject constructor(
 
     private val _insert = MutableStateFlow<Unit>(Unit)
     val insert = _insert.asStateFlow()
-    fun insertNote(note: Entity) = viewModelScope.launch {
+    fun insertNote(note: Note) = viewModelScope.launch {
         noteRepositoryImpl.insertNote(note)
             .collect{
                 _insert.emit(it)

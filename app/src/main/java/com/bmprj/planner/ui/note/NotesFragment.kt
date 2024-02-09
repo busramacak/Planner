@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentNotesBinding
-import com.bmprj.planner.model.Note
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,12 +35,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
         with(binding){
             noteListRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
                 LinearLayoutManager.VERTICAL, false)
-//            val list = ArrayList<Note>()
-//            val a1 = Note("note1","kjdslkjsdflkjsdfkjls","11/02/24 | 13:11")
-//            val a2 = Note("note2","*-*-*-*-*-*-*-*-*","00/00/24 | 00:05")
-//            list.add(a1)
-//            list.add(a2)
-//            noteAdapter.updateList(list)
             noteListRecyclerView.adapter=noteAdapter
         }
     }
