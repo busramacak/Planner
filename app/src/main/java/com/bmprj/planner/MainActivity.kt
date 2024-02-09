@@ -2,8 +2,10 @@ package com.bmprj.planner
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.bmprj.planner.databinding.ActivityMainBinding
@@ -23,9 +25,24 @@ class MainActivity : AppCompatActivity() {
             navHostFragment.navController
         )
 
+        navHostFragment.navController.addOnDestinationChangedListener{_, d:NavDestination,_->
+            if(d.id==R.id.addNoteFragment){
+                hideBottomNav()
+            }
+            else{
+                showBottomNav()
+            }
+        }
 
 
+    }
 
+    private fun showBottomNav() {
+        binding.bottomNavigationView.visibility=View.VISIBLE
+    }
+
+    private fun hideBottomNav() {
+        binding.bottomNavigationView.visibility= View.GONE
     }
 
     override fun onSupportNavigateUp(): Boolean {
