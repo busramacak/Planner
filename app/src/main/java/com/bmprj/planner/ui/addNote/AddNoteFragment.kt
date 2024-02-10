@@ -39,7 +39,12 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     private fun initLiveDataObservers() {
         addNoteViewModel.notee.handleState(
-            onSucces = {}
+            onSucces = {
+                with(binding){
+                    title.setText(it.title)
+                    content.setText(it.content)
+                }
+            }
         )
     }
 

@@ -43,6 +43,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
     private fun onNoteClicked(note: Note) {
         val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.noteId)
+        findNavController().navigate(action)
     }
 
     private fun addNoteClick(){

@@ -32,7 +32,7 @@ class AddNoteViewModel @Inject constructor(
 
     fun getNote(noteId:Int) = viewModelScope.launch {
         noteRepositoryImpl.getNote(noteId).collect{
-            _note.emit(it)
+            _note.emit(UiState.Success(it))
         }
     }
 }

@@ -19,7 +19,7 @@ class NoteRepositoryImpl @Inject constructor(
         emit(noteDao.getNotes())
     }
 
-    override suspend fun getNote(noteId:Int): Flow<UiState<Note>> =flow {
+    override suspend fun getNote(noteId:Int): Flow<Note> =flow {
         emit(noteDao.getNote(noteId))
     }
 

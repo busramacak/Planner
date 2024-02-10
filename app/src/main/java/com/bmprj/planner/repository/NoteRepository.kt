@@ -8,6 +8,6 @@ interface NoteRepository {
     suspend fun insertNote(note: Note): Flow<Unit>
     suspend fun getAllNotes():Flow<List<Note>>
 
-    suspend fun getNote(noteId:Int):Flow<UiState<Note>>
+    suspend fun getNote(noteId:Int):Flow<Note>
 
 }

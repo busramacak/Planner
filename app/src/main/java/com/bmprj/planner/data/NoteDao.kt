@@ -16,5 +16,5 @@ interface NoteDao {
     suspend fun getNotes():List<Note>
     
     @Query("Select * From note Where noteId=:noteId")
-    suspend fun getNote(noteId:Int):UiState<Note>
+    suspend fun getNote(noteId:Int):Note
 }
