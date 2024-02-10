@@ -9,5 +9,6 @@ interface NoteRepository {
     suspend fun getAllNotes():Flow<List<Note>>
 
     suspend fun getNote(noteId:Int):Flow<Note>
+    suspend fun updateNote(note:Note):Flow<Unit>
 
 }

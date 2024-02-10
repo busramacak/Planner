@@ -4,12 +4,14 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddNoteBinding
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.getDateTime
+import com.bmprj.planner.utils.makeDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,19 +24,53 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     override fun initView(view: View) {
 
         initLiveDataObservers()
-        if(noteId!=0){
-            addNoteViewModel.getNote(noteId)
-        }
+        if(noteId!=0){ addNoteViewModel.getNote(noteId) }
 
         with(binding){
-            materialButton.setOnClickListener {
+            saveButton.setOnClickListener { saveButtonClick() }
+            backButton.setOnClickListener { backButtonClick() }
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun backButtonClick() {
+
+        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
+
+        if(!binding.title.text.isNullOrEmpty()){
+            val dialog = makeDialog()
+            dialog.setPositiveButton("OK"){_,_ ->
+                saveButtonClick()
+            }
+            dialog.setNegativeButton("NO"){_,_ ->
+                findNavController().navigate(action)
+            }
+        }else{
+            findNavController().navigate(action)
+        }
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveButtonClick() {
+        with(binding){
+            if(noteId!=0){
+                val note = Note(noteId = noteId,
+                    title = title.text.toString(),
+                    content = content.text.toString(),
+                    date = getDateTime())
+                addNoteViewModel.updateNote(note)
+            }else{
                 val note = Note(
                     title = title.text.toString(),
                     content = content.text.toString(),
                     date = getDateTime())
                 addNoteViewModel.insertNote(note)
             }
+
         }
+
     }
 
     private fun initLiveDataObservers() {

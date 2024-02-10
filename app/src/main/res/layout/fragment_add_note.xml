@@ -20,8 +20,10 @@
           app:layout_constraintTop_toTopOf="parent">
 
           <com.google.android.material.imageview.ShapeableImageView
+              android:id="@+id/backButton"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:background="?android:attr/selectableItemBackground"
               android:src="@drawable/icon_back" />
 
           <EditText
@@ -50,13 +52,13 @@
           android:gravity="top"
           android:padding="10dp"
           android:hint="Note"
-          app:layout_constraintBottom_toTopOf="@+id/materialButton"
+          app:layout_constraintBottom_toTopOf="@+id/saveButton"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/materialToolbar" />
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/materialButton"
+          android:id="@+id/saveButton"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
           android:layout_marginHorizontal="5dp"
