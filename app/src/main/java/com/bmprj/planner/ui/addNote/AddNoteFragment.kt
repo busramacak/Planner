@@ -20,6 +20,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private val addNoteViewModel by viewModels<AddNoteViewModel>()
     private val bundle :AddNoteFragmentArgs by navArgs()
     private val noteId:Int by lazy { bundle.id }
+    private lateinit var oldNote:Note
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView(view: View) {
 
@@ -38,7 +39,9 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
         val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
 
-        if(!binding.title.text.isNullOrEmpty()){
+        if(!binding.title.text.isNullOrEmpty()
+            && (binding.title.text.toString() != oldNote.title
+                    || binding.content.text.toString() != oldNote.content)){
 
             val dialog = makeDialog()
             dialog.setPositiveButton("OK"){_,_ ->
@@ -80,7 +83,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private fun initLiveDataObservers() {
         addNoteViewModel.notee.handleState(
             onSucces = {
-
+                oldNote=it
                 with(binding){
                     title.setText(it.title)
                     content.setText(it.content)
