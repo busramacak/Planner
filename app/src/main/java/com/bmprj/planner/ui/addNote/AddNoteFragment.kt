@@ -39,6 +39,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
 
         if(!binding.title.text.isNullOrEmpty()){
+
             val dialog = makeDialog()
             dialog.setPositiveButton("OK"){_,_ ->
                 saveButtonClick()
@@ -46,6 +47,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             dialog.setNegativeButton("NO"){_,_ ->
                 findNavController().navigate(action)
             }
+            dialog.show()
         }else{
             findNavController().navigate(action)
         }
@@ -54,6 +56,8 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveButtonClick() {
+
+        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
         with(binding){
             if(noteId!=0){
                 val note = Note(noteId = noteId,
@@ -68,7 +72,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     date = getDateTime())
                 addNoteViewModel.insertNote(note)
             }
-
+            findNavController().navigate(action)
         }
 
     }
@@ -76,6 +80,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private fun initLiveDataObservers() {
         addNoteViewModel.notee.handleState(
             onSucces = {
+
                 with(binding){
                     title.setText(it.title)
                     content.setText(it.content)

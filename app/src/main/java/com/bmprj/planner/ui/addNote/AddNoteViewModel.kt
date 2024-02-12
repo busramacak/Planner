@@ -8,6 +8,7 @@ import com.bmprj.planner.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +24,9 @@ class AddNoteViewModel @Inject constructor(
     private val _note = MutableStateFlow<UiState<Note>>(UiState.Loading)
     val notee = _note.asStateFlow()
 
+    private val _update = MutableStateFlow<UiState<Unit>>(UiState.Loading)
+    val update = _update.asStateFlow()
+
     fun insertNote(note: Note) = viewModelScope.launch {
         noteRepositoryImpl.insertNote(note)
             .collect{
@@ -36,5 +40,9 @@ class AddNoteViewModel @Inject constructor(
     }
     fun updateNote(note:Note) = viewModelScope.launch {
         noteRepositoryImpl.updateNote(note)
+            .catch{}
+            .collect{
+                _update.emit(UiState.Success(it))
+            }
     }
 }
