@@ -10,5 +10,6 @@ interface NoteRepository {
 
     suspend fun getNote(noteId:Int):Flow<Note>
     suspend fun updateNote(note:Note):Flow<Unit>
+    suspend fun deleteNote(note:Note):Flow<Unit>
 
 }

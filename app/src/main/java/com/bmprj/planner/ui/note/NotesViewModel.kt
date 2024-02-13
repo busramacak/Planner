@@ -25,4 +25,11 @@ class NotesViewModel @Inject constructor(
                 println(it)
             }
     }
+
+    fun deleteNote(note:Note)= viewModelScope.launch {
+        noteRepositoryImpl.deleteNote(note)
+            .collect{
+
+        }
+    }
 }

@@ -29,5 +29,8 @@ class NoteRepositoryImpl @Inject constructor(
         emit(noteDao.updateNote(note))
     }
 
+    override suspend fun deleteNote(note: Note): Flow<Unit> =flow {
+        emit(noteDao.deleteNote(note))
+    }
 
 }

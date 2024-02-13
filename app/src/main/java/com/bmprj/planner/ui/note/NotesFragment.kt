@@ -37,8 +37,17 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
             noteListRecyclerView.layoutManager = LinearLayoutManager(requireContext(),
                 LinearLayoutManager.VERTICAL, false)
             noteListRecyclerView.adapter=noteAdapter
+
+            noteAdapter.attachSwipeToDelete(noteListRecyclerView)
         }
         noteAdapter.setOnClickListener { onNoteClicked(it) }
+        noteAdapter.setOnSwipedListener { onNoteSwiped(it) }
+
+    }
+
+    private fun onNoteSwiped(it: Note) {
+        println("kaydırdukkkk: ${it.title}")
+        noteViewModel.deleteNote(it)
     }
 
     private fun onNoteClicked(note: Note) {
