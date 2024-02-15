@@ -1,6 +1,8 @@
 package com.bmprj.planner.ui.note
 
+import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +17,21 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
     private val noteAdapter by lazy { NoteAdapter() }
     private val noteViewModel by viewModels<NotesViewModel> ()
+    private var isAllFabVisible=false
     override fun initView(view: View) {
+
+//        binding.instantDate.text=getString(R.string.line,"bu qwoıejkqwopekpoqwkepowqkeşlsads")
+//        binding.instantDate.foreground=resources.getDrawable(R.drawable.line)
         initAdapter()
         initLiveDataObservers()
         noteViewModel.getAllNotes()
-        binding.addNoteButton.setOnClickListener { addNoteClick() }
+        with(binding){
+            addButton.setOnClickListener { addClick() }
+            addNoteButton.setOnClickListener { addNoteClick() }
+            addTaskButton.setOnClickListener { addTaskClick() }
+        }
     }
+
 
     private fun initLiveDataObservers() {
         noteViewModel.noteList.handleState(
@@ -46,7 +57,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
     }
 
     private fun onNoteSwiped(it: Note) {
-        println("kaydırdukkkk: ${it.title}")
         noteViewModel.deleteNote(it)
     }
 
@@ -55,10 +65,32 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
         findNavController().navigate(action)
     }
 
-    private fun addNoteClick(){
+    private fun addClick(){
+        with(binding) {
+            if (!isAllFabVisible) {
+                addNoteButton.show()
+                addNoteText.visibility = View.VISIBLE
+                addTaskButton.show()
+                addTaskText.visibility = View.VISIBLE
+                isAllFabVisible = true
+
+            } else {
+                addNoteButton.hide()
+                addNoteText.visibility = View.GONE
+                addTaskButton.hide()
+                addTaskText.visibility = View.GONE
+                isAllFabVisible = false
+            }
+        }
+    }
+
+    private fun addNoteClick() {
         val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
         findNavController().navigate(action)
     }
 
+    private fun addTaskClick() {
+        TODO("Not yet implemented")
+    }
 
 }
