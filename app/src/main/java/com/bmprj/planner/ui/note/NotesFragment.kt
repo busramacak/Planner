@@ -63,6 +63,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
     private fun onNoteClicked(note: Note) {
         val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(note.noteId)
         findNavController().navigate(action)
+
     }
 
     private fun addClick(){
@@ -90,7 +91,8 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
     }
 
     private fun addTaskClick() {
-        TODO("Not yet implemented")
+        val action = NotesFragmentDirections.actionNotesFragmentToAddTaskFragment()
+        findNavController().navigate(action)
     }
 
 }

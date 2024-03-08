@@ -11,7 +11,6 @@ import javax.inject.Inject
 class NoteRepositoryImpl @Inject constructor(
     private val noteDao:NoteDao
 ) : NoteRepository{
-
     /** adding new note */
     override suspend fun insertNote(note: Note): Flow<Unit> = flow {
         emit(noteDao.insertNote(note))
