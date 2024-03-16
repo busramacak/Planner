@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         navHostFragment.navController.addOnDestinationChangedListener{_, d:NavDestination,_->
-            if(d.id== R.id.addNoteFragment){
+            if(d.id== R.id.addNoteFragment || d.id==R.id.addTaskFragment){
                 hideBottomNav()
             }
             else{

@@ -42,7 +42,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
             }
         )
     }
-
+ 
     private fun initAdapter(){
         with(binding){
             noteListRecyclerView.layoutManager = LinearLayoutManager(requireContext(),

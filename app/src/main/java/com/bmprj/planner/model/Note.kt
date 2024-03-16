@@ -10,3 +10,4 @@ data class Note(
     val content:String,
     val date:String
 )
+
