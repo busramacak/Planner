@@ -10,5 +10,6 @@ data class Task (
     val description:String,
     val taskDate:String,
     val taskTime:String,
+    val category: List<Category>
     ){
 }

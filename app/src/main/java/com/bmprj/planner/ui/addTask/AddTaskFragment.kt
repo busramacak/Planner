@@ -31,11 +31,34 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
     private fun saveButtonClick() {
 
         with(binding){
+            val categoryList= arrayListOf<Category>()
+            val checkedCategoryIds = chipGroup.checkedChipIds
+            for(i in checkedCategoryIds){
+                when(i){
+                    marketingCategory.id ->{
+                        categoryList.add(Category(i,marketingCategory.text.toString()))
+                    }
+                    meetingCategory.id ->{
+                        categoryList.add(Category(i,meetingCategory.text.toString()))
+                    }
+                    planningCategory.id ->{
+                        categoryList.add(Category(i,planningCategory.text.toString()))
+                    }
+                    funCategory.id ->{
+                        categoryList.add(Category(i,funCategory.text.toString()))
+                    }
+                    otherCategory.id ->{
+                        categoryList.add(Category(i,otherCategory.text.toString()))
+                    }
+                }
+            }
+
             val task = Task(
                 title =taskTitleEditText.text.toString(),
                 description = descriptionEditText.text.toString(),
                 taskDate = "13/15/2024",
-                taskTime = "13:15")
+                taskTime = "13:15",
+                category = categoryList)
 
             addTaskViewModel.insertTask(task)
         }
