@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.bmprj.planner.data.NoteDao
 import com.bmprj.planner.data.NoteDatabase
+import com.bmprj.planner.data.TaskDAO
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +17,7 @@ import dagger.hilt.android.scopes.ViewModelScoped
 class DatabaseModule {
     @Provides
     @ViewModelScoped
-    fun provideDatabase(@ApplicationContext context: Context):NoteDatabase{
+    fun provideDatabase(@ApplicationContext context: Context): NoteDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
             NoteDatabase::class.java,
@@ -27,8 +28,14 @@ class DatabaseModule {
 
     @Provides
     @ViewModelScoped
-    fun provideDao(db:NoteDatabase):NoteDao{
+    fun provideNoteDao(db: NoteDatabase): NoteDao {
         return db.noteDao()
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideTaskDao(db:NoteDatabase):TaskDAO{
+        return db.taskDao()
     }
 
 }

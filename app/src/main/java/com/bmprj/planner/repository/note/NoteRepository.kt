@@ -1,4 +1,4 @@
-package com.bmprj.planner.repository
+package com.bmprj.planner.repository.note
 
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.UiState

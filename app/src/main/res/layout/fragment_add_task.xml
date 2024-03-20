@@ -58,16 +58,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/corner"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskTitleLayout">
+            app:layout_constraintTop_toBottomOf="@id/taskTitleLayout">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionLayout"
@@ -86,9 +85,10 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/decriptionEditText"
+                    android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -101,18 +101,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/descriptionLayout" />
 
-
-
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                tools:text="dfdf"
                 app:layout_constraintBottom_toBottomOf="@+id/dateButton"
                 app:layout_constraintStart_toEndOf="@+id/dateButton"
-                app:layout_constraintTop_toTopOf="@+id/dateButton" />
-
+                app:layout_constraintTop_toTopOf="@+id/dateButton"
+                tools:text="dfdf" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/timeButton"
@@ -124,16 +121,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dateButton" />
 
-
             <TextView
                 android:id="@+id/timeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                tools:text="lşsdakşsdakşlsd"
                 app:layout_constraintBottom_toBottomOf="@+id/timeButton"
                 app:layout_constraintStart_toEndOf="@+id/timeButton"
-                app:layout_constraintTop_toTopOf="@+id/timeButton" />
+                app:layout_constraintTop_toTopOf="@+id/timeButton"
+                tools:text="lşsdakşsdakşlsd" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -147,95 +143,73 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeButton" />
 
-            <TextView
-                android:id="@+id/marketingCategory"
-                android:layout_width="wrap_content"
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/textview_selector"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:paddingVertical="7dp"
-                android:text="@string/category_market"
-                android:backgroundTint="#E9DCFE"
-                android:textColor="#483871"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"/>
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="20dp"
+                app:chipSpacingHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/marketingCategory"
+                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_market" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/meetingCategory"
+                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_meeting" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/planningCategory"
+                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_planning" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/funCategory"
+                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_fun" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/otherCategory"
+                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_other" />
 
 
-            <TextView
-                android:id="@+id/meetingCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/textview_selector"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="7dp"
-                android:text="@string/category_meeting"
-                android:backgroundTint="#E9DCFE"
-                android:textColor="#483871"
-                app:layout_constraintStart_toEndOf="@+id/marketingCategory"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
-                android:id="@+id/planningCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/textview_selector"
-                android:backgroundTint="#E9DCFE"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="7dp"
-                android:text="@string/category_planning"
-                android:textColor="#483871"
-                app:layout_constraintStart_toEndOf="@+id/meetingCategory"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-            <TextView
-                android:id="@+id/funCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_selector"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="7dp"
-                android:text="@string/category_fun"
-                android:backgroundTint="#E9DCFE"
-                android:textColor="#483871"
-                app:layout_constraintStart_toStartOf="@+id/marketingCategory"
-                app:layout_constraintTop_toBottomOf="@+id/marketingCategory" />
-
-            <TextView
-                android:id="@+id/addNewCategoryButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textview_selector"
-                android:backgroundTint="#6750A3"
-                android:paddingHorizontal="15dp"
-                android:paddingVertical="7dp"
-                android:text="Add Category"
-                android:textColor="#FFFFFF"
-                app:layout_constraintStart_toEndOf="@+id/funCategory"
-                app:layout_constraintTop_toBottomOf="@+id/marketingCategory" />
+            </com.google.android.material.chip.ChipGroup>
 
             <Button
                 android:id="@+id/createTaskButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/button_selector"
                 android:paddingVertical="15dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/create_task"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,7 +3,7 @@ package com.bmprj.planner.ui.addNote
 import androidx.lifecycle.viewModelScope
 import com.bmprj.planner.base.BaseViewModel
 import com.bmprj.planner.model.Note
-import com.bmprj.planner.repository.NoteRepositoryImpl
+import com.bmprj.planner.repository.note.NoteRepositoryImpl
 import com.bmprj.planner.utils.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,16 +1,15 @@
-package com.bmprj.planner.repository
+package com.bmprj.planner.repository.note
 
 
 import com.bmprj.planner.data.NoteDao
 import com.bmprj.planner.model.Note
-import com.bmprj.planner.utils.UiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class NoteRepositoryImpl @Inject constructor(
-    private val noteDao:NoteDao
-) : NoteRepository{
+    private val noteDao: NoteDao
+) : NoteRepository {
     /** adding new note */
     override suspend fun insertNote(note: Note): Flow<Unit> = flow {
         emit(noteDao.insertNote(note))
