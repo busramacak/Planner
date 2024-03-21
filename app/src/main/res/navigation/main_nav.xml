@@ -38,5 +38,9 @@
         android:id="@+id/addTaskFragment"
         android:name="com.bmprj.planner.ui.addTask.AddTaskFragment"
         android:label="AddTaskFragment"
-        tools:layout="@layout/fragment_add_task"/>
+        tools:layout="@layout/fragment_add_task">
+        <action
+            android:id="@+id/action_addTaskFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+    </fragment>
 </navigation>

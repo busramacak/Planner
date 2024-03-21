@@ -8,8 +8,8 @@ data class Task (
     @PrimaryKey(autoGenerate = true) val taskId:Int=0,
     val title:String,
     val description:String,
-    val taskDate:String,
-    val taskTime:String,
+    val taskDate:String="",
+    val taskTime:String="",
     val category: List<Category>
     ){
 }

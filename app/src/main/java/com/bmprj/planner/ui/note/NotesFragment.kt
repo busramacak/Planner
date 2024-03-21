@@ -1,6 +1,7 @@
 package com.bmprj.planner.ui.note
 
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -16,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes) {
 
     private val noteAdapter by lazy { NoteAdapter() }
+    private val taskAdapter by lazy { TaskAdapter() }
     private val noteViewModel by viewModels<NotesViewModel> ()
     private var isAllFabVisible=false
     override fun initView(view: View) {
@@ -25,6 +27,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
         initAdapter()
         initLiveDataObservers()
         noteViewModel.getAllNotes()
+        noteViewModel.getAllTasks()
         with(binding){
             addButton.setOnClickListener { addClick() }
             addNoteButton.setOnClickListener { addNoteClick() }
@@ -41,6 +44,24 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
                 noteAdapter.updateList(it)
             }
         )
+
+        noteViewModel.taskList.handleState(
+            onSucces = {
+                for(i in it){
+                    for(j in i.category){
+                        with(binding){
+                            when(j.categoryName){
+                                "Marketing" ->{
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+                taskAdapter.updateList(it)
+            }
+        )
     }
  
     private fun initAdapter(){
@@ -50,6 +71,10 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
             noteListRecyclerView.adapter=noteAdapter
 
             noteAdapter.attachSwipeToDelete(noteListRecyclerView)
+
+            taskListRecyclerView.layoutManager =LinearLayoutManager(requireContext(),
+                LinearLayoutManager.HORIZONTAL,false)
+            taskListRecyclerView.adapter=taskAdapter
         }
         noteAdapter.setOnClickListener { onNoteClicked(it) }
         noteAdapter.setOnSwipedListener { onNoteSwiped(it) }
