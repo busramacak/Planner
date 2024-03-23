@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/textview_selector"
                     android:paddingHorizontal="4dp"
-                    android:visibility=""
+                    setVisibility="@{taskList.marketing}"
                     android:text="@string/category_market" />
 
                 <TextView
@@ -64,6 +64,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@drawable/textview_selector"
                     android:paddingHorizontal="4dp"
+                    setVisibility="@{taskList.meeting}"
                     android:text="@string/category_meeting" />
 
                 <TextView
@@ -73,6 +74,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@drawable/textview_selector"
                     android:paddingHorizontal="4dp"
+                    setVisibility="@{taskList.planning}"
                     android:text="@string/category_planning" />
 
                 <TextView
@@ -82,6 +84,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@drawable/textview_selector"
                     android:paddingHorizontal="4dp"
+                    setVisibility="@{taskList.funn}"
                     android:text="@string/category_fun" />
 
                 <TextView
@@ -91,6 +94,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@drawable/textview_selector"
                     android:paddingHorizontal="4dp"
+                    setVisibility="@{taskList.other}"
                     android:text="@string/category_other" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

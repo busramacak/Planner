@@ -66,24 +66,30 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
     private fun saveButtonClick() {
 
         with(binding){
-            val categoryList= arrayListOf<Category>()
+            var marketing:Boolean=false
+            var meeting:Boolean=false
+            var planning:Boolean=false
+            var funn:Boolean=false
+            var other:Boolean=false
+
             val checkedCategoryIds = chipGroup.checkedChipIds
             for(i in checkedCategoryIds){
                 when(i){
                     marketingCategory.id ->{
-                        categoryList.add(Category(i,marketingCategory.text.toString()))
+                        marketing=true
                     }
                     meetingCategory.id ->{
-                        categoryList.add(Category(i,meetingCategory.text.toString()))
+                        meeting=true
                     }
                     planningCategory.id ->{
-                        categoryList.add(Category(i,planningCategory.text.toString()))
+                        planning=true
+
                     }
                     funCategory.id ->{
-                        categoryList.add(Category(i,funCategory.text.toString()))
+                        funn=true
                     }
                     otherCategory.id ->{
-                        categoryList.add(Category(i,otherCategory.text.toString()))
+                        other=true
                     }
                 }
             }
@@ -93,7 +99,11 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
                 description = descriptionEditText.text.toString(),
                 taskDate = dateText.text.toString(),
                 taskTime = timeText.text.toString(),
-                category = categoryList)
+                marketing = marketing,
+                meeting = meeting,
+                planning = planning,
+                funn = funn,
+                other = other)
 
             addTaskViewModel.insertTask(task)
             val action = AddTaskFragmentDirections.actionAddTaskFragmentToNotesFragment()

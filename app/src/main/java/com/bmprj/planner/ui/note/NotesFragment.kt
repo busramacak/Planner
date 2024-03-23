@@ -47,18 +47,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
         noteViewModel.taskList.handleState(
             onSucces = {
-                for(i in it){
-                    for(j in i.category){
-                        with(binding){
-                            when(j.categoryName){
-                                "Marketing" ->{
-
-                                }
-                            }
-                        }
-
-                    }
-                }
                 taskAdapter.updateList(it)
             }
         )

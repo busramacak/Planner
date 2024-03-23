@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.model.Task
 
-@Database(entities = [Note::class, Task::class], version = 3)
+@Database(entities = [Note::class, Task::class], version = 5)
 @TypeConverters(Converters::class)
 abstract class NoteDatabase : RoomDatabase(){
     abstract fun noteDao(): NoteDao

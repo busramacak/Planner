@@ -10,6 +10,11 @@ data class Task (
     val description:String,
     val taskDate:String="",
     val taskTime:String="",
-    val category: List<Category>
+    val marketing:Boolean,
+    val meeting:Boolean,
+    val planning:Boolean,
+    val funn:Boolean,
+    val other:Boolean,
     ){
 }
+
