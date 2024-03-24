@@ -4,12 +4,10 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddTaskBinding
-import com.bmprj.planner.model.Category
 import com.bmprj.planner.model.Task
 import com.bmprj.planner.utils.getDatee
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -18,7 +16,7 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_add_task){
+class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_add_task){
 
     private val addTaskViewModel by viewModels<AddTaskViewModel>()
 
@@ -31,7 +29,13 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
             createTaskButton.setOnClickListener{ saveButtonClick()}
             dateButton.setOnClickListener { dateButtonClick() }
             timeButton.setOnClickListener { timeButtonClick() }
+            taskBackButton.setOnClickListener { backButtonClick() }
         }
+    }
+
+    private fun backButtonClick() {
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToNotesFragment()
+        findNavController().navigate(action)
     }
 
     private fun timeButtonClick() {
@@ -46,7 +50,7 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
             binding.timeText.text=time
         }
 
-        timePicker.show(requireFragmentManager(),"tag")
+        timePicker.show(parentFragmentManager,"tag")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -56,7 +60,7 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
                 .setTitleText("Select date")
                 .build()
 
-        datePicker.show(requireFragmentManager(),"tag")
+        datePicker.show(parentFragmentManager,"tag")
 
         datePicker.addOnPositiveButtonClickListener {
             binding.dateText.text=it.getDatee()
@@ -66,11 +70,11 @@ class AddTaskFragment() : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment
     private fun saveButtonClick() {
 
         with(binding){
-            var marketing:Boolean=false
-            var meeting:Boolean=false
-            var planning:Boolean=false
-            var funn:Boolean=false
-            var other:Boolean=false
+            var marketing =false
+            var meeting=false
+            var planning=false
+            var funn=false
+            var other=false
 
             val checkedCategoryIds = chipGroup.checkedChipIds
             for(i in checkedCategoryIds){

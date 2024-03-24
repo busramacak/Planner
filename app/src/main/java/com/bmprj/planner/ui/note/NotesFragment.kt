@@ -11,6 +11,7 @@ import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentNotesBinding
 import com.bmprj.planner.model.Note
+import com.bmprj.planner.model.Task
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,6 +48,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
         noteViewModel.taskList.handleState(
             onSucces = {
+                println(it)
                 taskAdapter.updateList(it)
             }
         )
@@ -66,8 +68,20 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
         }
         noteAdapter.setOnClickListener { onNoteClicked(it) }
         noteAdapter.setOnSwipedListener { onNoteSwiped(it) }
-
+        taskAdapter.setOnAlarmClickListener { onAlarmClicked(it) }
+        taskAdapter.setOnLongClickListener { onTaskLongClicked(it) }
     }
+
+    private fun onTaskLongClicked(it: Task): Boolean {
+        println("uzun tiklandi")
+        return false
+    }
+
+
+    private fun onAlarmClicked(it: Task) {
+        println(it.taskTime)
+    }
+
 
     private fun onNoteSwiped(it: Note) {
         noteViewModel.deleteNote(it)

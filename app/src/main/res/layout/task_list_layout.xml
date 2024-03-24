@@ -97,6 +97,15 @@
                     setVisibility="@{taskList.other}"
                     android:text="@string/category_other" />
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/alarmIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_alarm"
+                setVisibility="@{taskList.taskTime}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
