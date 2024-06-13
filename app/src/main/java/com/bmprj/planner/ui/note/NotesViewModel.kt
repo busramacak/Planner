@@ -28,7 +28,6 @@ class NotesViewModel @Inject constructor(
         noteRepositoryImpl.getAllNotes()
             .collect{
                 _noteList.emit(UiState.Success(it))
-                println(it)
             }
     }
 

@@ -1,11 +1,10 @@
 package com.bmprj.planner.ui.note
 
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.view.View
-import androidx.core.content.ContextCompat
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
@@ -17,18 +16,19 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes) {
 
-    private val noteAdapter by lazy { NoteAdapter() }
-    private val taskAdapter by lazy { TaskAdapter() }
+    private val noteAdapter by lazy { NoteAdapter(::onNoteClicked,::onNoteSwiped) }
+    private val taskAdapter by lazy { TaskAdapter(::onAlarmClicked,::onTaskLongClicked) }
     private val noteViewModel by viewModels<NotesViewModel> ()
     private var isAllFabVisible=false
     override fun initView(view: View) {
 
 //        binding.instantDate.text=getString(R.string.line,"bu qwoıejkqwopekpoqwkepowqkeşlsads")
 //        binding.instantDate.foreground=resources.getDrawable(R.drawable.line)
-        initAdapter()
-        initLiveDataObservers()
+
         noteViewModel.getAllNotes()
         noteViewModel.getAllTasks()
+        initLiveDataObservers()
+        initAdapter()
         with(binding){
             addButton.setOnClickListener { addClick() }
             addNoteButton.setOnClickListener { addNoteClick() }
@@ -48,7 +48,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
         noteViewModel.taskList.handleState(
             onSucces = {
-                println(it)
                 taskAdapter.updateList(it)
             }
         )
@@ -65,11 +64,13 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
             taskListRecyclerView.layoutManager =LinearLayoutManager(requireContext(),
                 LinearLayoutManager.HORIZONTAL,false)
             taskListRecyclerView.adapter=taskAdapter
+
+
         }
-        noteAdapter.setOnClickListener { onNoteClicked(it) }
-        noteAdapter.setOnSwipedListener { onNoteSwiped(it) }
-        taskAdapter.setOnAlarmClickListener { onAlarmClicked(it) }
-        taskAdapter.setOnLongClickListener { onTaskLongClicked(it) }
+//        noteAdapter.setOnClickListener { onNoteClicked(it) }
+//        noteAdapter.setOnSwipedListener { onNoteSwiped(it) }
+//        taskAdapter.setOnAlarmClickListener { onAlarmClicked(it) }
+//        taskAdapter.setOnLongClickListener { onTaskLongClicked(it) }
     }
 
     private fun onTaskLongClicked(it: Task): Boolean {
@@ -79,7 +80,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
 
     private fun onAlarmClicked(it: Task) {
-        println(it.taskTime)
+        Toast.makeText(requireContext(),it.taskTime,Toast.LENGTH_LONG).show()
     }
 
 

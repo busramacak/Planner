@@ -10,27 +10,20 @@ import com.bmprj.planner.model.Note
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
-class NoteAdapter():BaseAdapter<NoteListLayoutBinding, Note>() {
+class NoteAdapter(
+    private var onItemClicked: ((Note) -> Unit),
+    private var onItemSwiped:((Note) -> Unit)
+):BaseAdapter<NoteListLayoutBinding, Note>() {
     override val layoutId: Int get() = R.layout.note_list_layout
-    private var onItemClicked: ((Note) -> Unit)? = null
-    private var onItemSwiped:((Note) -> Unit)? =null
+
 
     override fun bind(binding: NoteListLayoutBinding, item: Note) {
         with(binding) {
             noteList = item
             executePendingBindings()
 
-            root.setOnClickListener { onItemClicked?.invoke(item) }
-
-
+            root.setOnClickListener { onItemClicked.invoke(item) }
         }
-    }
-    fun setOnClickListener(onItemClicked:(Note)-> Unit){
-        this.onItemClicked=onItemClicked
-    }
-
-    fun setOnSwipedListener(onItemSwiped:(Note)->Unit){
-        this.onItemSwiped=onItemSwiped
     }
 
     fun attachSwipeToDelete(recyclerView: RecyclerView){
