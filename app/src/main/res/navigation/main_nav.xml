@@ -13,15 +13,8 @@
         <action
             android:id="@+id/action_notesFragment_to_addNoteFragment"
             app:destination="@id/addNoteFragment" />
-        <action
-            android:id="@+id/action_notesFragment_to_addTaskFragment"
-            app:destination="@id/addTaskFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/calendarFragment"
-        android:name="com.bmprj.planner.ui.CalendarFragment"
-        android:label="CalendarFragment"
-        tools:layout="@layout/fragment_calendar"/>
+
     <fragment
         android:id="@+id/addNoteFragment"
         android:name="com.bmprj.planner.ui.addNote.AddNoteFragment"
@@ -40,7 +33,17 @@
         android:label="AddTaskFragment"
         tools:layout="@layout/fragment_add_task">
         <action
-            android:id="@+id/action_addTaskFragment_to_notesFragment"
-            app:destination="@id/notesFragment" />
+            android:id="@+id/action_addTaskFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/tasksFragment"
+        android:name="com.bmprj.planner.ui.task.TasksFragment"
+        android:label="TasksFragment"
+        tools:layout="@layout/fragment_tasks">
+        <action
+            android:id="@+id/action_tasksFragment_to_addTaskFragment"
+            app:destination="@id/addTaskFragment" />
+    </fragment>
+
 </navigation>

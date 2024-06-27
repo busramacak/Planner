@@ -35,4 +35,11 @@ abstract class BaseAdapter<DB:ViewDataBinding, T:Any>(
         list.addAll(newList)
         notifyDataSetChanged()
     }
+
+    fun moveToEnd(item:T){
+        if(list.remove(item)){
+            list.add(item)
+        }
+        notifyDataSetChanged()
+    }
 }

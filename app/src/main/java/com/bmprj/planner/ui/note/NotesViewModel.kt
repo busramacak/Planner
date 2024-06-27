@@ -22,26 +22,19 @@ class NotesViewModel @Inject constructor(
     private val _noteList = MutableStateFlow<UiState<List<Note>>>(UiState.Loading)
     val noteList = _noteList.asStateFlow()
 
-    private val _taskList = MutableStateFlow<UiState<List<Task>>>(UiState.Loading)
-    val taskList=_taskList.asStateFlow()
-    fun getAllNotes() =viewModelScope.launch {
+
+    fun getAllNotes() = viewModelScope.launch {
         noteRepositoryImpl.getAllNotes()
             .collect{
                 _noteList.emit(UiState.Success(it))
             }
     }
 
-    fun deleteNote(note:Note)= viewModelScope.launch {
+    fun deleteNote(note:Note) = viewModelScope.launch {
         noteRepositoryImpl.deleteNote(note)
             .collect{
-
         }
     }
 
-    fun getAllTasks()= viewModelScope.launch {
-        taskRepositoryImpl.getTasks()
-            .collect{
-                _taskList.emit(UiState.Success(it))
-            }
-    }
+
 }

@@ -16,4 +16,12 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getTasks(): Flow<List<Task>> = flow {
         emit(taskDao.getTasks())
     }
+
+    override suspend fun deleteTask(task: Task): Flow<Unit> = flow {
+        emit(taskDao.deleteTask(task))
+    }
+
+    override suspend fun updateTask(task: Task): Flow<Unit> = flow {
+        emit(taskDao.updateTask(task))
+    }
 }

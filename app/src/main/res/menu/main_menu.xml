@@ -6,6 +6,6 @@
         android:title="@string/notes_title"/>
 
     <item
-        android:id="@+id/calendarFragment"
-        android:title="@string/calendar_title"/>
+        android:id="@+id/tasksFragment"
+        android:title="@string/tasks_title"/>
 </menu>

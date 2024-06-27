@@ -28,17 +28,17 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
         with(binding){
             createTaskButton.setOnClickListener{ saveButtonClick()}
             dateButton.setOnClickListener { dateButtonClick() }
-            timeButton.setOnClickListener { timeButtonClick() }
+//            timeButton.setOnClickListener { timeButtonClick() }
             taskBackButton.setOnClickListener { backButtonClick() }
         }
     }
 
     private fun backButtonClick() {
-        val action = AddTaskFragmentDirections.actionAddTaskFragmentToNotesFragment()
+        val action = AddTaskFragmentDirections.actionAddTaskFragmentToTasksFragment()
         findNavController().navigate(action)
     }
 
-    private fun timeButtonClick() {
+    private fun getTimePicker() {
         val timePicker = MaterialTimePicker.Builder()
             .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
             .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -64,6 +64,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
 
         datePicker.addOnPositiveButtonClickListener {
             binding.dateText.text=it.getDatee()
+            getTimePicker()
         }
     }
 
@@ -101,6 +102,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
             val task = Task(
                 title =taskTitleEditText.text.toString(),
                 description = descriptionEditText.text.toString(),
+                isChecked = false,
                 taskDate = dateText.text.toString(),
                 taskTime = timeText.text.toString(),
                 marketing = marketing,
@@ -110,7 +112,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
                 other = other)
 
             addTaskViewModel.insertTask(task)
-            val action = AddTaskFragmentDirections.actionAddTaskFragmentToNotesFragment()
+            val action = AddTaskFragmentDirections.actionAddTaskFragmentToTasksFragment()
             findNavController().navigate(action)
 //            addTaskViewModel.getTask()
         }

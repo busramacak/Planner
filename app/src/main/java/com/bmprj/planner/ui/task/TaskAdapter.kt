@@ -1,35 +1,44 @@
-package com.bmprj.planner.ui.note
+package com.bmprj.planner.ui.task
 
 import android.graphics.Canvas
+import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseAdapter
-import com.bmprj.planner.databinding.NoteListLayoutBinding
-import com.bmprj.planner.model.Note
+import com.bmprj.planner.databinding.TaskListLayoutBinding
+import com.bmprj.planner.model.Task
+import com.bmprj.planner.utils.setDrawable
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
+class TaskAdapter(
+    private var onAlarmClicked:((Task) -> Unit),
+    private var onLongClicked:((Task) -> Boolean),
+    private var onCompleteClicked:((Task)->Unit),
+    private var onItemSwiped:((Task) -> Unit)
+):BaseAdapter<TaskListLayoutBinding, Task> (){
+    override val layoutId: Int
+        get() = R.layout.task_list_layout
 
-class NoteAdapter(
-    private var onItemClicked: ((Note) -> Unit),
-    private var onItemSwiped:((Note) -> Unit)
-):BaseAdapter<NoteListLayoutBinding, Note>() {
-    override val layoutId: Int get() = R.layout.note_list_layout
 
-
-    override fun bind(binding: NoteListLayoutBinding, item: Note) {
-        with(binding) {
-            noteList = item
+    override fun bind(binding: TaskListLayoutBinding, item: Task) {
+        with(binding){
+            taskList=item
             executePendingBindings()
-
-            root.setOnClickListener { onItemClicked.invoke(item) }
-            println(item)
+            alarmIcon.setOnClickListener { onAlarmClicked.invoke(item) }
+            root.setOnLongClickListener { onLongClicked.invoke(item) }
+            completeTask.setOnClickListener {
+                item.isChecked=!item.isChecked
+                onCompleteClicked.invoke(item)
+                taskTitle.setDrawable(item.isChecked)
+            }
         }
     }
 
+
     fun attachSwipeToDelete(recyclerView: RecyclerView){
-        ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(
-            0,ItemTouchHelper.LEFT
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT
         ){
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -69,4 +78,6 @@ class NoteAdapter(
 
 
     }
+
+
 }

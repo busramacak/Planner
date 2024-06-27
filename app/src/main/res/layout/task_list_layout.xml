@@ -11,39 +11,56 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="150dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="7dp"
         android:background="?android:attr/selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/deleteTask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_delete"
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/completeTask"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:checked="@{taskList.checked}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/taskTitle"
+
+            <ImageView
+                android:id="@+id/alarmIcon"
+                setVisibility="@{taskList.taskTime}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="@{taskList.title}"
-                android:textStyle="bold"
+                android:src="@drawable/icon_alarm"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/completeTask" />
+
+
+            <TextView
+                android:id="@+id/taskTitle"
+                setDrawable="@{taskList.checked}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@{taskList.title}" />
 
             <TextView
                 android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:textSize="13sp"
                 android:maxLines="2"
                 android:maxLength="41"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,70 +68,71 @@
                 tools:text="@{taskList.description}" />
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@id/description">
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/description"
+                app:layout_constraintTop_toBottomOf="@id/description">
 
                 <TextView
                     android:id="@+id/marketingCategory"
+                    setVisibility="@{taskList.marketing}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:background="@drawable/textview_selector"
-                    android:paddingHorizontal="4dp"
-                    setVisibility="@{taskList.marketing}"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/category_market" />
 
                 <TextView
                     android:id="@+id/meetingCategory"
+                    setVisibility="@{taskList.meeting}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
+                    android:textSize="12sp"
                     android:background="@drawable/textview_selector"
-                    android:paddingHorizontal="4dp"
-                    setVisibility="@{taskList.meeting}"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/category_meeting" />
 
                 <TextView
                     android:id="@+id/planningCategory"
+                    setVisibility="@{taskList.planning}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
+                    android:textSize="12sp"
                     android:background="@drawable/textview_selector"
-                    android:paddingHorizontal="4dp"
-                    setVisibility="@{taskList.planning}"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/category_planning" />
 
                 <TextView
                     android:id="@+id/funCategory"
+                    setVisibility="@{taskList.funn}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
+                    android:textSize="12sp"
                     android:background="@drawable/textview_selector"
-                    android:paddingHorizontal="4dp"
-                    setVisibility="@{taskList.funn}"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/category_fun" />
 
                 <TextView
                     android:id="@+id/otherCategory"
+                    setVisibility="@{taskList.other}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
+                    android:textSize="12sp"
                     android:background="@drawable/textview_selector"
-                    android:paddingHorizontal="4dp"
-                    setVisibility="@{taskList.other}"
+                    android:paddingHorizontal="8dp"
                     android:text="@string/category_other" />
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/alarmIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_alarm"
-                setVisibility="@{taskList.taskTime}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -8,14 +8,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:background="@color/white">
-
-
+        android:background="@color/white"
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/noteToolbar"
+            android:id="@+id/tasksToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#E9DCFE"
@@ -23,36 +21,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/instantDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="asdasd" />
+
+
+                <TextView
+                    android:id="@+id/checkListTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="tasks"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
 
         </com.google.android.material.appbar.MaterialToolbar>
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/noteListRecyclerView"
+            android:id="@+id/taskListRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/white"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/noteToolbar" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tasksToolbar" />
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addNoteButton"
+        <ImageButton
+            android:id="@+id/addTaskButton"
             android:layout_width="wrap_content"
+            android:background="@drawable/button_corners"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
             android:src="@drawable/icon_add"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
