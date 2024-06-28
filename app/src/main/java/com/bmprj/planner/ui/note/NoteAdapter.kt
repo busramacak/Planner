@@ -42,9 +42,9 @@ class NoteAdapter(
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 val note = list[position]
-
-                list.removeAt(position)
-                notifyItemRemoved(position)
+//
+//                list.removeAt(position)
+//                notifyItemRemoved(position)
                 onItemSwiped.invoke(note)
             }
 

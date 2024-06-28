@@ -14,6 +14,8 @@ import com.bmprj.planner.model.Note
 import com.bmprj.planner.model.Task
 import com.bmprj.planner.ui.MainViewModel
 import com.bmprj.planner.ui.task.TaskAdapter
+import com.bmprj.planner.utils.makeDialog
+import com.bmprj.planner.utils.makeDialogForDelete
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -59,7 +61,18 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
     }
 
     private fun onNoteSwiped(it: Note) {
-        noteViewModel.deleteNote(it)
+
+        val dialog = makeDialogForDelete()
+        dialog.setPositiveButton("OK"){_,_ ->
+            noteAdapter.list.remove(it)
+            noteAdapter.notifyDataSetChanged()
+            noteViewModel.deleteNote(it)
+        }
+        dialog.setNegativeButton("NO"){_,_ ->
+            noteAdapter.notifyDataSetChanged()
+        }
+        dialog.show()
+
     }
 
     private fun onNoteClicked(note: Note) {
