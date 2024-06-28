@@ -22,7 +22,7 @@ fun TextView.setVisibility(isSelected:Boolean){
 @BindingAdapter("setVisibility")
 fun ImageView.setVisibility(content:String){
     if(content==""){
-        this.visibility=View.GONE
+        this.visibility=View.INVISIBLE
     }else{
         this.visibility=View.VISIBLE
     }
