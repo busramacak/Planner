@@ -25,7 +25,9 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     override fun initView(view: View) {
 
         initLiveDataObservers()
-        if(noteId!=0){ addNoteViewModel.getNote(noteId) }
+        if(noteId!=0){
+            addNoteViewModel.getNote(noteId)
+        }
 
         with(binding){
             saveButton.setOnClickListener { saveButtonClick() }
@@ -34,12 +36,13 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     }
 
+    //TODO üste tik ekle ve yazarken geri çıkıldığında klavye kapatıp otomatik kaydetsin. bknz: xiaomi samsung notes
     @RequiresApi(Build.VERSION_CODES.O)
     private fun backButtonClick() {
 
         val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
 
-        if(!binding.title.text.isNullOrEmpty()
+        if(!binding.title.text.isNullOrEmpty() && ::oldNote.isInitialized
             && (binding.title.text.toString() != oldNote.title
                     || binding.content.text.toString() != oldNote.content)){
 
@@ -82,6 +85,9 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     private fun initLiveDataObservers() {
         addNoteViewModel.notee.handleState(
+            onLoading = {
+                        oldNote
+            },
             onSucces = {
                 oldNote=it
                 with(binding){
