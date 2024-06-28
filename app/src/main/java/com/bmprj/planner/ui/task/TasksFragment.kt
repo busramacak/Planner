@@ -6,7 +6,9 @@ import android.text.Spanned
 import android.text.style.BackgroundColorSpan
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,20 +17,26 @@ import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentTasksBinding
 import com.bmprj.planner.model.Task
+import com.bmprj.planner.ui.MainViewModel
 import com.google.android.material.carousel.CarouselLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TasksFragment : BaseFragment<FragmentTasksBinding>(R.layout.fragment_tasks) {
     private val taskAdapter by lazy { TaskAdapter(::onAlarmClicked,::onTaskLongClicked, ::onCompleteClicked, ::onTaskSwiped) }
     private val taskViewModel by viewModels<TaskViewModel>()
+    private val sharedViewModel by activityViewModels<MainViewModel>()
     override fun initView(view: View) {
 
         taskViewModel.getAllTasks()
         initLiveDataObservers()
         initAdapter()
         with(binding){
-            addTaskButton.setOnClickListener{ addTaskClicked()}
+//            addTaskButton.setOnClickListener{ addTaskClicked()}
         }
 
 
@@ -50,6 +58,14 @@ class TasksFragment : BaseFragment<FragmentTasksBinding>(R.layout.fragment_tasks
                 taskAdapter.updateList(it)
             }
         )
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.fabClickEvent.collect { isClicked ->
+                if (isClicked) {
+                    addTaskClicked()
+                    sharedViewModel.makeFabValueDefault()
+                }
+            }
+        }
     }
 
     private fun onTaskLongClicked(task: Task): Boolean {

@@ -2,7 +2,9 @@ package com.bmprj.planner.ui.note
 
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bmprj.planner.R
@@ -10,21 +12,23 @@ import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentNotesBinding
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.model.Task
+import com.bmprj.planner.ui.MainViewModel
 import com.bmprj.planner.ui.task.TaskAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes) {
 
     private val noteAdapter by lazy { NoteAdapter(::onNoteClicked,::onNoteSwiped) }
     private val noteViewModel by viewModels<NotesViewModel> ()
-
+    private val sharedViewModel by activityViewModels<MainViewModel>()
     override fun initView(view: View) {
         noteViewModel.getAllNotes()
         initLiveDataObservers()
         initAdapter()
         with(binding){
-            addNoteButton.setOnClickListener { addClick() }
+//            addNoteButton.setOnClickListener { addClick() }
         }
     }
 
@@ -36,6 +40,15 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
                 noteAdapter.updateList(it)
             }
         )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            sharedViewModel.fabClickEvent.collect { isClicked ->
+                if (isClicked) {
+                    addNoteClick()
+                    sharedViewModel.makeFabValueDefault()
+                }
+            }
+        }
     }
  
     private fun initAdapter(){
@@ -58,7 +71,7 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
 
     }
 
-    private fun addClick(){
+    private fun addNoteClick(){
         val action = NotesFragmentDirections.actionNotesFragmentToAddNoteFragment(0)
         findNavController().navigate(action)
     }
