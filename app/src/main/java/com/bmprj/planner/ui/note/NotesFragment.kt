@@ -27,9 +27,6 @@ class NotesFragment : BaseFragment<FragmentNotesBinding>(R.layout.fragment_notes
         noteViewModel.getAllNotes()
         initLiveDataObservers()
         initAdapter()
-        with(binding){
-//            addNoteButton.setOnClickListener { addClick() }
-        }
     }
 
     private fun initLiveDataObservers() {

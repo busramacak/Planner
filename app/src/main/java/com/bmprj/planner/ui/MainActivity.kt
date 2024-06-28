@@ -4,17 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
-import androidx.fragment.app.activityViewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bmprj.planner.R
 import com.bmprj.planner.databinding.ActivityMainBinding
-import com.bmprj.planner.ui.note.NotesFragmentDirections
-import com.bmprj.planner.ui.task.TasksFragmentDirections
+import com.bmprj.planner.utils.setDrawable
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             else{
                 showBottomNav()
             }
+
+            if(d.id == R.id.notesFragment){
+            binding.fab.setDrawable("note")
+            }
+            if( d.id == R.id.tasksFragment){
+            binding.fab.setDrawable("task")
+        }
         }
 
 

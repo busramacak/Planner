@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bmprj.planner.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 @BindingAdapter("setVisibility")
@@ -34,4 +35,13 @@ fun TextView.setDrawable(isComplete:Boolean){
     }else{
         resources.getDrawable(R.drawable.not_line)
     }
+}
+
+fun FloatingActionButton.setDrawable(currentFragment:String){
+    val iconResId = when(currentFragment){
+        "note" -> R.drawable.icon_add_note
+        "task" -> R.drawable.icon_add_task
+        else -> R.drawable.icon_add
+    }
+    this.setImageResource(iconResId)
 }

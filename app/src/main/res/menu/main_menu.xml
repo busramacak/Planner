@@ -3,9 +3,11 @@
 
     <item
         android:id="@+id/notesFragment"
-        android:title="@string/notes_title"/>
+        android:title="@string/notes_title"
+        android:icon="@drawable/icon_notes"/>
 
     <item
         android:id="@+id/tasksFragment"
-        android:title="@string/tasks_title"/>
+        android:title="@string/tasks_title"
+        android:icon="@drawable/icon_tasks"/>
 </menu>
