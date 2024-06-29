@@ -1,8 +1,11 @@
 package com.bmprj.planner.ui.addNote
 
+import android.content.Context
 import android.os.Build
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,7 +15,10 @@ import com.bmprj.planner.databinding.FragmentAddNoteBinding
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.getDateTime
 import com.bmprj.planner.utils.makeDialog
+import com.bmprj.planner.utils.onFocus
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Stack
+
 
 @AndroidEntryPoint
 class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_add_note) {
@@ -21,6 +27,8 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private val bundle :AddNoteFragmentArgs by navArgs()
     private val noteId:Int by lazy { bundle.id }
     private lateinit var oldNote:Note
+    private val undoStack = Stack<String>()
+    private var previousText: String = ""
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView(view: View) {
 
@@ -30,13 +38,27 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
 
         with(binding){
+            addNoteViewModel.setUpCharacterCounter(content)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
+            prevButton.setOnClickListener{ prevButtonClicked() }
+            forwardButton.setOnClickListener{ forwardButtonClicked()}
         }
 
     }
 
-    //TODO üste tik ekle ve yazarken geri çıkıldığında klavye kapatıp otomatik kaydetsin. bknz: xiaomi samsung notes
+    private fun forwardButtonClicked() {
+
+    }
+
+    private fun prevButtonClicked() {
+        if(undoStack.isNotEmpty()){
+            val prevText = undoStack.pop()
+            binding.content.setText(prevText)
+            binding.content.setSelection(prevText.length)
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun backButtonClick() {
 
@@ -85,14 +107,30 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     private fun initLiveDataObservers() {
         addNoteViewModel.notee.handleState(
-            onLoading = {
-                        oldNote
-            },
             onSucces = {
                 oldNote=it
                 with(binding){
                     title.setText(it.title)
                     content.setText(it.content)
+                    date.text = it.date
+                    onFocus(content)
+                }
+            }
+        )
+
+        addNoteViewModel.characterLength.handleStateT(
+            onSucces = {
+                binding.characters.text=getString(R.string.characters,it.toString())
+            }
+        )
+
+        addNoteViewModel.updatedText.handleStateT(
+            onSucces = {
+                if (it != null) {
+                    if(it != previousText){
+                        undoStack.push(it)
+                        previousText=it
+                    }
                 }
             }
         )

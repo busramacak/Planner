@@ -35,6 +35,7 @@ abstract class BaseFragment<B: ViewDataBinding>(private val layout:Int):Fragment
     }
     abstract fun initView(view:View)
 
+    @JvmName("UiStateT")
     fun <T> StateFlow<UiState<T>>.handleState(
         coroutineExceptionHandler: CoroutineExceptionHandler?=null,
         onLoading: (() -> Unit)? = null,
@@ -62,6 +63,26 @@ abstract class BaseFragment<B: ViewDataBinding>(private val layout:Int):Fragment
                             onError?.invoke(state.error)
                         }
                     }
+                }
+        }
+    }
+
+    @JvmName("T")
+    fun <T> StateFlow<T>.handleStateT(
+        coroutineExceptionHandler: CoroutineExceptionHandler?=null,
+        onLoading: (() -> Unit)? = null,
+        onError: ((Throwable) -> Unit)? = null,
+        onSucces: ((T) -> Unit)? = null
+    ) {
+        lifecycleScope.launch(coroutineExceptionHandler?: EmptyCoroutineContext) {
+            this@handleStateT
+                .onStart {
+                    onLoading?.invoke()
+                }
+                .catch {
+                    onError?.invoke(it)
+                }.collect { state ->
+                    onSucces?.invoke(state)
                 }
         }
     }
