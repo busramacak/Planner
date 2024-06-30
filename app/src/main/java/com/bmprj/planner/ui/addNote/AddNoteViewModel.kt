@@ -2,10 +2,7 @@ package com.bmprj.planner.ui.addNote
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.EditText
-import android.widget.TextView
 import androidx.lifecycle.viewModelScope
-import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseViewModel
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.repository.note.NoteRepositoryImpl
@@ -37,7 +34,10 @@ class AddNoteViewModel @Inject constructor(
     private val _textState = MutableStateFlow<String>("")
     val textState = _textState.asStateFlow()
 
-    private val textHistory = mutableListOf<String>()
+    private val undoList = mutableListOf<String>()
+    private val _redoList = mutableListOf<String>()
+    val redoList get() = _redoList
+
 
     val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -73,16 +73,25 @@ class AddNoteViewModel @Inject constructor(
         val currentText = _textState.value
 
         if(newText != currentText){
-            textHistory.add(currentText)
+            undoList.add(currentText)
             _textState.value=newText
-
+            _redoList.clear()
         }
     }
 
     fun undo(){
-        if(textHistory.isNotEmpty()){
-            val prevText = textHistory.removeAt(textHistory.size-1)
+        if(undoList.isNotEmpty()){
+            val prevText = undoList.removeAt(undoList.size-1)
+            _redoList.add(_textState.value)
             _textState.value=prevText
+        }
+    }
+
+    fun redo(){
+        if(_redoList.isNotEmpty()){
+            val nextText = _redoList.removeAt(_redoList.size-1)
+            undoList.add(_textState.value)
+            _textState.value=nextText
         }
     }
 }

@@ -39,22 +39,22 @@
               android:src="@drawable/icon_save" />
 
           <com.google.android.material.imageview.ShapeableImageView
-              android:id="@+id/forwardButton"
+              android:id="@+id/redoButton"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="end"
               android:padding="10dp"
               android:layout_marginEnd="30dp"
               android:background="?android:attr/selectableItemBackground"
-              android:src="@drawable/icon_forward" />
+              android:src="@drawable/icon_redo_flu" />
           <com.google.android.material.imageview.ShapeableImageView
-              android:id="@+id/prevButton"
+              android:id="@+id/undoButton"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_gravity="end"
               android:padding="10dp"
               android:background="?android:attr/selectableItemBackground"
-              android:src="@drawable/icon_prev" />
+              android:src="@drawable/icon_prev_flu" />
 
 
 

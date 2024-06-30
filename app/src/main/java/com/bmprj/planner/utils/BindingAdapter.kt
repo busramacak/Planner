@@ -47,12 +47,22 @@ fun FloatingActionButton.setDrawable(currentFragment:String){
     this.setImageResource(iconResId)
 }
 
-fun ShapeableImageView.setDrawable(hasText:Boolean){
+fun ShapeableImageView.setPrevIcon(hasText:Boolean){
     this.setImageResource(
         if(hasText){
             R.drawable.icon_prev
         }else{
             R.drawable.icon_prev_flu
+        }
+    )
+}
+
+fun ShapeableImageView.setRedoIcon(hasText:Boolean){
+    this.setImageResource(
+        if(hasText){
+            R.drawable.icon_redo
+        }else{
+            R.drawable.icon_redo_flu
         }
     )
 }

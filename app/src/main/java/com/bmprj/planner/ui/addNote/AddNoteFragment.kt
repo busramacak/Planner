@@ -17,6 +17,8 @@ import com.bmprj.planner.utils.getDateTime
 import com.bmprj.planner.utils.makeDialog
 import com.bmprj.planner.utils.onFocus
 import com.bmprj.planner.utils.setDrawable
+import com.bmprj.planner.utils.setPrevIcon
+import com.bmprj.planner.utils.setRedoIcon
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Stack
 
@@ -40,17 +42,17 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             content.addTextChangedListener(addNoteViewModel.textWatcher)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
-            prevButton.setOnClickListener{ prevButtonClicked() }
-            forwardButton.setOnClickListener{ forwardButtonClicked()}
+            undoButton.setOnClickListener{ undoButtonClicked() }
+            redoButton.setOnClickListener{ redoButtonClicked()}
         }
 
     }
 
-    private fun forwardButtonClicked() {
-
+    private fun redoButtonClicked() {
+        addNoteViewModel.redo()
     }
 
-    private fun prevButtonClicked() {
+    private fun undoButtonClicked() {
         if(!binding.content.text.isNullOrEmpty()){
             addNoteViewModel.undo()
         }
@@ -103,40 +105,36 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     }
 
     private fun initLiveDataObservers() {
-        addNoteViewModel.notee.handleState(
-            onSucces = {
-                oldNote=it
-                with(binding){
+        with(binding) {
+            addNoteViewModel.notee.handleState(
+                onSucces = {
+                    oldNote=it
+
                     title.setText(it.title)
                     content.setText(it.content)
                     date.text = it.date
                     onFocus(content)
+
                 }
-            }
-        )
+            )
 
-        addNoteViewModel.characterLength.handleStateT(
-            onSucces = {
-                binding.characters.text=getString(R.string.characters,it.toString())
-            }
-        )
+            addNoteViewModel.characterLength.handleStateT(
+                onSucces = {
+                    characters.text=getString(R.string.characters,it.toString())
+                }
+            )
 
-        addNoteViewModel.textState.handleStateT(
-            onSucces = {
-                binding.prevButton.setDrawable(
-                    if(it ==""){
-                        false
-                    }else{
-                        true
-                    }
-                )
-                binding.content.removeTextChangedListener(addNoteViewModel.textWatcher)
-                binding.content.setText(it)
-                binding.content.setSelection(it.length) // İmleci metnin sonuna getir
-                // TextWatcher'ı geri ekle
-                binding.content.addTextChangedListener(addNoteViewModel.textWatcher)
-            }
-        )
+            addNoteViewModel.textState.handleStateT(
+                onSucces = {
+                    binding.redoButton.setRedoIcon(addNoteViewModel.redoList.isNotEmpty())
+                    undoButton.setPrevIcon(it != "")
+                    content.removeTextChangedListener(addNoteViewModel.textWatcher)
+                    content.setText(it)
+                    content.setSelection(it.length)
+                    content.addTextChangedListener(addNoteViewModel.textWatcher)
+                }
+            )
+        }
     }
 
 }
