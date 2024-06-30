@@ -16,6 +16,7 @@ import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.getDateTime
 import com.bmprj.planner.utils.makeDialog
 import com.bmprj.planner.utils.onFocus
+import com.bmprj.planner.utils.setDrawable
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Stack
 
@@ -27,8 +28,6 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private val bundle :AddNoteFragmentArgs by navArgs()
     private val noteId:Int by lazy { bundle.id }
     private lateinit var oldNote:Note
-    private val undoStack = Stack<String>()
-    private var previousText: String = ""
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView(view: View) {
 
@@ -38,7 +37,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
 
         with(binding){
-            addNoteViewModel.setUpCharacterCounter(content)
+            content.addTextChangedListener(addNoteViewModel.textWatcher)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
             prevButton.setOnClickListener{ prevButtonClicked() }
@@ -52,10 +51,8 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     }
 
     private fun prevButtonClicked() {
-        if(undoStack.isNotEmpty()){
-            val prevText = undoStack.pop()
-            binding.content.setText(prevText)
-            binding.content.setSelection(prevText.length)
+        if(!binding.content.text.isNullOrEmpty()){
+            addNoteViewModel.undo()
         }
     }
 
@@ -124,14 +121,20 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             }
         )
 
-        addNoteViewModel.updatedText.handleStateT(
+        addNoteViewModel.textState.handleStateT(
             onSucces = {
-                if (it != null) {
-                    if(it != previousText){
-                        undoStack.push(it)
-                        previousText=it
+                binding.prevButton.setDrawable(
+                    if(it ==""){
+                        false
+                    }else{
+                        true
                     }
-                }
+                )
+                binding.content.removeTextChangedListener(addNoteViewModel.textWatcher)
+                binding.content.setText(it)
+                binding.content.setSelection(it.length) // İmleci metnin sonuna getir
+                // TextWatcher'ı geri ekle
+                binding.content.addTextChangedListener(addNoteViewModel.textWatcher)
             }
         )
     }

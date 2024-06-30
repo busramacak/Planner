@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bmprj.planner.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.imageview.ShapeableImageView
 
 
 @BindingAdapter("setVisibility")
@@ -44,4 +45,14 @@ fun FloatingActionButton.setDrawable(currentFragment:String){
         else -> R.drawable.icon_add
     }
     this.setImageResource(iconResId)
+}
+
+fun ShapeableImageView.setDrawable(hasText:Boolean){
+    this.setImageResource(
+        if(hasText){
+            R.drawable.icon_prev
+        }else{
+            R.drawable.icon_prev_flu
+        }
+    )
 }
