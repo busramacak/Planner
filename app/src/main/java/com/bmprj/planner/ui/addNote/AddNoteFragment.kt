@@ -13,12 +13,14 @@ import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddNoteBinding
 import com.bmprj.planner.model.Note
+import com.bmprj.planner.utils.clearFocus
 import com.bmprj.planner.utils.getDateTime
 import com.bmprj.planner.utils.makeDialog
 import com.bmprj.planner.utils.onFocus
 import com.bmprj.planner.utils.setDrawable
 import com.bmprj.planner.utils.setPrevIcon
 import com.bmprj.planner.utils.setRedoIcon
+import com.bmprj.planner.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Stack
 
@@ -39,6 +41,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
 
         with(binding){
+            onFocus(content)
             content.addTextChangedListener(addNoteViewModel.textWatcher)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
@@ -84,7 +87,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveButtonClick() {
 
-        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
+//        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
         with(binding){
             if(noteId!=0){
                 val note = Note(noteId = noteId,
@@ -99,7 +102,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     date = getDateTime())
                 addNoteViewModel.insertNote(note)
             }
-            findNavController().navigate(action)
+//            findNavController().navigate(action)
         }
 
     }
@@ -115,6 +118,19 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     date.text = it.date
                     onFocus(content)
 
+                }
+            )
+            addNoteViewModel.insert.handleState(
+                onSucces = {
+                    toast("not başarıyla kaydedildi.")
+                    clearFocus(content)
+                }
+            )
+
+            addNoteViewModel.updatee.handleState(
+                onSucces = {
+                    toast("not başarıyla güncellendi.")
+                    clearFocus(content)
                 }
             )
 

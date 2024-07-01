@@ -19,14 +19,14 @@ class AddNoteViewModel @Inject constructor(
     private val noteRepositoryImpl: NoteRepositoryImpl
 ):BaseViewModel() {
 
-    private val _insert = MutableStateFlow<Unit>(Unit)
+    private val _insert = MutableStateFlow<UiState<Unit>>(UiState.Loading)
     val insert = _insert.asStateFlow()
 
     private val _note = MutableStateFlow<UiState<Note>>(UiState.Loading)
     val notee = _note.asStateFlow()
 
     private val _update = MutableStateFlow<UiState<Unit>>(UiState.Loading)
-    val update = _update.asStateFlow()
+    val updatee = _update.asStateFlow()
 
     private val _charactersLength = MutableStateFlow<Int?>(0)
     val characterLength = _charactersLength.asStateFlow()
@@ -53,7 +53,7 @@ class AddNoteViewModel @Inject constructor(
     fun insertNote(note: Note) = viewModelScope.launch {
         noteRepositoryImpl.insertNote(note)
             .collect{
-                _insert.emit(it)
+                _insert.emit(UiState.Success(it))
             }
     }
     fun getNote(noteId:Int) = viewModelScope.launch {
