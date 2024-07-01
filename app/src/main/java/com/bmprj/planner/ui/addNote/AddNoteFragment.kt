@@ -1,7 +1,9 @@
 package com.bmprj.planner.ui.addNote
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
@@ -20,6 +22,7 @@ import com.bmprj.planner.utils.onFocus
 import com.bmprj.planner.utils.setDrawable
 import com.bmprj.planner.utils.setPrevIcon
 import com.bmprj.planner.utils.setRedoIcon
+import com.bmprj.planner.utils.setVisibility
 import com.bmprj.planner.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Stack
@@ -32,6 +35,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private val bundle :AddNoteFragmentArgs by navArgs()
     private val noteId:Int by lazy { bundle.id }
     private lateinit var oldNote:Note
+    @SuppressLint("ClickableViewAccessibility")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun initView(view: View) {
 
@@ -41,13 +45,30 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
 
         with(binding){
-            onFocus(content)
+            onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+            content.setOnTouchListener { v, event ->
+                if (event.action == MotionEvent.ACTION_UP) {
+                    if (!content.hasFocus()) {
+                        content.requestFocus()
+                        content.performClick()
+                    } else {
+                        onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+                    }
+                }
+                false
+            }
+            content.setOnClickListener {   onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)}
             content.addTextChangedListener(addNoteViewModel.textWatcher)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
             undoButton.setOnClickListener{ undoButtonClicked() }
-            redoButton.setOnClickListener{ redoButtonClicked()}
+            redoButton.setOnClickListener{ redoButtonClicked() }
+            shareButton.setOnClickListener{ shareButtonClicked() }
         }
+
+    }
+
+    private fun shareButtonClicked() {
 
     }
 
@@ -102,6 +123,8 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     date = getDateTime())
                 addNoteViewModel.insertNote(note)
             }
+//            shareButton.setVisibility(true)
+//            changeBackgroundButton.setVisibility(true)
 //            findNavController().navigate(action)
         }
 
@@ -116,21 +139,21 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     title.setText(it.title)
                     content.setText(it.content)
                     date.text = it.date
-                    onFocus(content)
+//                    onFocus(content,undoButton,redoButton)
 
                 }
             )
             addNoteViewModel.insert.handleState(
                 onSucces = {
                     toast("not başarıyla kaydedildi.")
-                    clearFocus(content)
+                    clearFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
                 }
             )
 
             addNoteViewModel.updatee.handleState(
                 onSucces = {
                     toast("not başarıyla güncellendi.")
-                    clearFocus(content)
+                    clearFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
                 }
             )
 

@@ -66,3 +66,11 @@ fun ShapeableImageView.setRedoIcon(hasText:Boolean){
         }
     )
 }
+
+fun ImageView.setVisibility(isVisible:Boolean){
+    this.visibility=if(isVisible){
+        View.VISIBLE
+    }else{
+        View.GONE
+    }
+}
