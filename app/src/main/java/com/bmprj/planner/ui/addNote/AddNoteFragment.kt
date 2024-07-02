@@ -2,7 +2,9 @@ package com.bmprj.planner.ui.addNote
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -14,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddNoteBinding
+import com.bmprj.planner.databinding.ShareBottomLayoutBinding
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.clearFocus
 import com.bmprj.planner.utils.getDateTime
@@ -24,6 +27,7 @@ import com.bmprj.planner.utils.setPrevIcon
 import com.bmprj.planner.utils.setRedoIcon
 import com.bmprj.planner.utils.setVisibility
 import com.bmprj.planner.utils.toast
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Stack
 
@@ -69,7 +73,26 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     }
 
     private fun shareButtonClicked() {
+        val bottomSheetBinding = ShareBottomLayoutBinding.inflate(LayoutInflater.from(requireContext()))
 
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
+        bottomSheetBinding.btnShareText.setOnClickListener { shareNoteAsText(binding.content.text.toString()) }
+        bottomSheetBinding.closeButton.setOnClickListener { bottomSheetDialog.dismiss() }
+        bottomSheetDialog.show()
+    }
+
+    private fun shareNoteAsText(text:String) {
+        if(text.isNotEmpty()){
+            val shareIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, text)
+                type = "text/plain"
+            }
+            val chooser = Intent.createChooser(shareIntent, "Notu paylaş")
+            startActivity(chooser)
+        }
     }
 
     private fun redoButtonClicked() {
