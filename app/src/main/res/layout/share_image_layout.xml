@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#C4E8D9"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white" />
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="10dp"
+        android:background="#599B7C"
+        android:text="asdasdasd" />
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="13sp"
+        android:paddingHorizontal="10dp"
+        android:background="#599B7C"
+        android:minHeight="50dp"
+        android:text="asdasdasd" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingVertical="10dp"
+        android:textSize="11sp"
+        android:textStyle="italic"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:background="#599B7C"
+        android:text="Planner ile oluşturuldu" />
+
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white" />
+
+
+</LinearLayout>
