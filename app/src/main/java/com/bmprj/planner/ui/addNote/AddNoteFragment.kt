@@ -1,17 +1,16 @@
 package com.bmprj.planner.ui.addNote
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
@@ -41,110 +40,145 @@ import java.io.IOException
 class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_add_note) {
 
     private val addNoteViewModel by viewModels<AddNoteViewModel>()
-    private val bundle :AddNoteFragmentArgs by navArgs()
-    private val noteId:Int by lazy { bundle.id }
-    private lateinit var oldNote:Note
+    private val bundle: AddNoteFragmentArgs by navArgs()
+    private val noteId: Int by lazy { bundle.id }
+    private lateinit var oldNote: Note
     private lateinit var imageViewResult: ImageView
-    @SuppressLint("ClickableViewAccessibility") 
+
     @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("ClickableViewAccessibility")
     override fun initView(view: View) {
 
         initLiveDataObservers()
-        if(noteId!=0){
+        if (noteId != 0) {
             addNoteViewModel.getNote(noteId)
         }
 
-        with(binding){
-            onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+        with(binding) {
+            onFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
             content.setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_UP) {
                     if (!content.hasFocus()) {
                         content.requestFocus()
                         content.performClick()
                     } else {
-                        onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+                        onFocus(
+                            content,
+                            undoButton,
+                            redoButton,
+                            shareButton,
+                            changeBackgroundButton
+                        )
                     }
                 }
                 false
             }
-            content.setOnClickListener {   onFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)}
+            content.setOnClickListener {
+                onFocus(
+                    content,
+                    undoButton,
+                    redoButton,
+                    shareButton,
+                    changeBackgroundButton
+                )
+            }
             content.addTextChangedListener(addNoteViewModel.textWatcher)
             saveButton.setOnClickListener { saveButtonClick() }
             backButton.setOnClickListener { backButtonClick() }
-            undoButton.setOnClickListener{ undoButtonClicked() }
-            redoButton.setOnClickListener{ redoButtonClicked() }
-            shareButton.setOnClickListener{ shareButtonClicked() }
-            changeBackgroundButton.setOnClickListener { changeBackgroundButtonClicked() }
+            undoButton.setOnClickListener { undoButtonClicked() }
+            redoButton.setOnClickListener { redoButtonClicked() }
+            shareButton.setOnClickListener { shareButtonClicked() }
         }
 
     }
 
-    private fun changeBackgroundButtonClicked() {
 
-    }
+
 
     private fun shareButtonClicked() {
-        val bottomSheetBinding = ShareBottomLayoutBinding.inflate(LayoutInflater.from(requireContext()))
+        val bottomSheetBinding =
+            ShareBottomLayoutBinding.inflate(LayoutInflater.from(requireContext()))
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
         bottomSheetBinding.btnShareText.setOnClickListener { shareNoteAsText(binding.content.text.toString()) }
-        bottomSheetBinding.btnShareImage.setOnClickListener { shareNoteAsImage(binding.title.text.toString(),binding.content.text.toString()) }
+        bottomSheetBinding.btnShareImage.setOnClickListener {
+            shareNoteAsImage(
+                binding.title.text.toString(),
+                binding.content.text.toString()
+            )
+        }
         bottomSheetBinding.closeButton.setOnClickListener { bottomSheetDialog.dismiss() }
         bottomSheetDialog.show()
     }
 
     @SuppressLint("Range")
-    private fun shareNoteAsImage(title:String, content: String) {
-
-        val imageLayoutBinding = ShareImageLayoutBinding.inflate(LayoutInflater.from(requireContext()))
-
-        imageLayoutBinding.title.text=title
-        imageLayoutBinding.content.text=content
-
-        val width = 800  // Set your desired width
-        val height = ViewGroup.LayoutParams.WRAP_CONTENT
-        imageLayoutBinding.root.layoutParams=ViewGroup.LayoutParams(width,height)
-
-        val specWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
-        val specHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.UNSPECIFIED)
-        imageLayoutBinding.root.measure(specWidth, specHeight)
-        imageLayoutBinding.root.layout(0, 0, imageLayoutBinding.root.measuredWidth, imageLayoutBinding.root.measuredHeight)
-
-        val bitmap = Bitmap.createBitmap(imageLayoutBinding.root.measuredWidth, imageLayoutBinding.root.measuredHeight, Bitmap.Config.ARGB_8888)
-
-        val canvas = Canvas(bitmap)
-        imageLayoutBinding.root.draw(canvas)
-        saveBitmap(bitmap)
+    private fun shareNoteAsImage(title: String, content: String) {
+        val action = AddNoteFragmentDirections.actionAddNoteFragmentToShowNoteFragment(title,content)
+        findNavController().navigate(action)
+//        val imageLayoutBinding =
+//            ShareImageLayoutBinding.inflate(LayoutInflater.from(requireContext()))
+//
+//        imageLayoutBinding.title.text = title
+//        imageLayoutBinding.content.text = content
+//
+//        val width = 800  // Set your desired width
+//        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+//        imageLayoutBinding.root.layoutParams = ViewGroup.LayoutParams(width, height)
+//
+//        val specWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
+//        val specHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.UNSPECIFIED)
+//        imageLayoutBinding.root.measure(specWidth, specHeight)
+//        imageLayoutBinding.root.layout(
+//            0,
+//            0,
+//            imageLayoutBinding.root.measuredWidth,
+//            imageLayoutBinding.root.measuredHeight
+//        )
+//
+//        val bitmap = Bitmap.createBitmap(
+//            imageLayoutBinding.root.measuredWidth,
+//            imageLayoutBinding.root.measuredHeight,
+//            Bitmap.Config.ARGB_8888
+//        )
+//
+//        val canvas = Canvas(bitmap)
+//        imageLayoutBinding.root.draw(canvas)
+//        saveBitmap(bitmap)
     }
 
     private fun saveBitmap(bitmap: Bitmap) {
-        val fileName = "my_image.png"
-        val file = File(requireContext().getExternalFilesDir(null), fileName)
-        try {
-            val stream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            stream.flush()
-            stream.close()
-            shareImage(file)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+//        val fileName = "my_image.png"
+//        val file = File(requireContext().getExternalFilesDir(null), fileName)
+//        try {
+//            val stream = FileOutputStream(file)
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+//            stream.flush()
+//            stream.close()
+//            shareImage(file)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
     }
 
     private fun shareImage(file: File) {
-        val uri = FileProvider.getUriForFile(requireContext(), requireContext().packageName + ".provider", file)
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "image/png"
-            putExtra(Intent.EXTRA_STREAM, uri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        startActivity(Intent.createChooser(shareIntent, "Share image"))
+
+//        val uri = FileProvider.getUriForFile(
+//            requireContext(),
+//            requireContext().packageName + ".provider",
+//            file
+//        )
+//        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+//            type = "image/png"
+//            putExtra(Intent.EXTRA_STREAM, uri)
+//            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        }
+//        startActivity(Intent.createChooser(shareIntent, "Share image"))
     }
 
-    private fun shareNoteAsText(text:String) {
-        if(text.isNotEmpty()){
+    private fun shareNoteAsText(text: String) {
+        if (text.isNotEmpty()) {
             val shareIntent = Intent().apply {
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, text)
@@ -160,7 +194,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     }
 
     private fun undoButtonClicked() {
-        if(!binding.content.text.isNullOrEmpty()){
+        if (!binding.content.text.isNullOrEmpty()) {
             addNoteViewModel.undo()
         }
     }
@@ -170,19 +204,20 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
         val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
 
-        if(!binding.title.text.isNullOrEmpty() && ::oldNote.isInitialized
+        if (!binding.title.text.isNullOrEmpty() && ::oldNote.isInitialized
             && (binding.title.text.toString() != oldNote.title
-                    || binding.content.text.toString() != oldNote.content)){
+                    || binding.content.text.toString() != oldNote.content)
+        ) {
 
             val dialog = makeDialog()
-            dialog.setPositiveButton("OK"){_,_ ->
+            dialog.setPositiveButton("OK") { _, _ ->
                 saveButtonClick()
             }
-            dialog.setNegativeButton("NO"){_,_ ->
+            dialog.setNegativeButton("NO") { _, _ ->
                 findNavController().navigate(action)
             }
             dialog.show()
-        }else{
+        } else {
             findNavController().navigate(action)
         }
 
@@ -192,18 +227,21 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     private fun saveButtonClick() {
 
 //        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
-        with(binding){
-            if(noteId!=0){
-                val note = Note(noteId = noteId,
+        with(binding) {
+            if (noteId != 0) {
+                val note = Note(
+                    noteId = noteId,
                     title = title.text.toString(),
                     content = content.text.toString(),
-                    date = getDateTime())
+                    date = getDateTime()
+                )
                 addNoteViewModel.updateNote(note)
-            }else{
+            } else {
                 val note = Note(
                     title = title.text.toString(),
                     content = content.text.toString(),
-                    date = getDateTime())
+                    date = getDateTime()
+                )
                 addNoteViewModel.insertNote(note)
             }
 //            shareButton.setVisibility(true)
@@ -217,7 +255,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         with(binding) {
             addNoteViewModel.notee.handleState(
                 onSucces = {
-                    oldNote=it
+                    oldNote = it
 
                     title.setText(it.title)
                     content.setText(it.content)
@@ -229,20 +267,20 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             addNoteViewModel.insert.handleState(
                 onSucces = {
                     toast("not başarıyla kaydedildi.")
-                    clearFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+                    clearFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
                 }
             )
 
             addNoteViewModel.updatee.handleState(
                 onSucces = {
                     toast("not başarıyla güncellendi.")
-                    clearFocus(content,undoButton,redoButton,shareButton,changeBackgroundButton)
+                    clearFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
                 }
             )
 
             addNoteViewModel.characterLength.handleStateT(
                 onSucces = {
-                    characters.text=getString(R.string.characters,it.toString())
+                    characters.text = getString(R.string.characters, it.toString())
                 }
             )
 

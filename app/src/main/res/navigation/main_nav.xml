@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_addNoteFragment_to_notesFragment"
             app:destination="@id/notesFragment" />
+        <action
+            android:id="@+id/action_addNoteFragment_to_showNoteFragment"
+            app:destination="@id/showNoteFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -44,6 +47,18 @@
         <action
             android:id="@+id/action_tasksFragment_to_addTaskFragment"
             app:destination="@id/addTaskFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/showNoteFragment"
+        android:name="com.bmprj.planner.ShowNoteFragment"
+        android:label="ShowNoteFragment"
+        tools:layout="@layout/fragment_show_note">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="content"
+            app:argType="string" />
     </fragment>
 
 </navigation>
