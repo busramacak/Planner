@@ -11,10 +11,8 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,17 +27,14 @@ import com.bmprj.planner.utils.clearFocus
 import com.bmprj.planner.utils.getDateTime
 import com.bmprj.planner.utils.makeDialog
 import com.bmprj.planner.utils.onFocus
-import com.bmprj.planner.utils.setDrawable
 import com.bmprj.planner.utils.setPrevIcon
 import com.bmprj.planner.utils.setRedoIcon
-import com.bmprj.planner.utils.setVisibility
 import com.bmprj.planner.utils.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.Stack
 
 
 @AndroidEntryPoint
@@ -79,7 +74,12 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             undoButton.setOnClickListener{ undoButtonClicked() }
             redoButton.setOnClickListener{ redoButtonClicked() }
             shareButton.setOnClickListener{ shareButtonClicked() }
+            changeBackgroundButton.setOnClickListener { changeBackgroundButtonClicked() }
         }
+
+    }
+
+    private fun changeBackgroundButtonClicked() {
 
     }
 
@@ -90,13 +90,13 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
         bottomSheetBinding.btnShareText.setOnClickListener { shareNoteAsText(binding.content.text.toString()) }
-        bottomSheetBinding.btnShareImage.setOnClickListener { shareNoteasImage(binding.title.text.toString(),binding.content.text.toString()) }
+        bottomSheetBinding.btnShareImage.setOnClickListener { shareNoteAsImage(binding.title.text.toString(),binding.content.text.toString()) }
         bottomSheetBinding.closeButton.setOnClickListener { bottomSheetDialog.dismiss() }
         bottomSheetDialog.show()
     }
 
     @SuppressLint("Range")
-    private fun shareNoteasImage(title:String, content: String) {
+    private fun shareNoteAsImage(title:String, content: String) {
 
         val imageLayoutBinding = ShareImageLayoutBinding.inflate(LayoutInflater.from(requireContext()))
 
@@ -112,22 +112,10 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         imageLayoutBinding.root.measure(specWidth, specHeight)
         imageLayoutBinding.root.layout(0, 0, imageLayoutBinding.root.measuredWidth, imageLayoutBinding.root.measuredHeight)
 
-        // Create a Bitmap with the same dimensions as the view
         val bitmap = Bitmap.createBitmap(imageLayoutBinding.root.measuredWidth, imageLayoutBinding.root.measuredHeight, Bitmap.Config.ARGB_8888)
 
-        // Create a Canvas and associate it with the Bitmap
         val canvas = Canvas(bitmap)
-
-        // Set background color if necessary
-        canvas.drawColor(Color.WHITE)
-
-        // Draw the view on the Canvas
         imageLayoutBinding.root.draw(canvas)
-
-        // Display the created bitmap in ImageView
-//        imageViewResult.setImageBitmap(bitmap)
-
-        // Save the bitmap as an image file and share
         saveBitmap(bitmap)
     }
 
