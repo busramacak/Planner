@@ -12,8 +12,8 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 class NoteAdapter(
     private var onItemClicked: ((Note) -> Unit),
-    private var onItemSwiped:((Note) -> Unit)
-):BaseAdapter<NoteListLayoutBinding, Note>() {
+    private var onItemSwiped: ((Note) -> Unit),
+) : BaseAdapter<NoteListLayoutBinding, Note>() {
     override val layoutId: Int get() = R.layout.note_list_layout
 
 
@@ -27,10 +27,10 @@ class NoteAdapter(
         }
     }
 
-    fun attachSwipeToDelete(recyclerView: RecyclerView){
-        ItemTouchHelper(object :ItemTouchHelper.SimpleCallback(
-            0,ItemTouchHelper.LEFT
-        ){
+    fun attachSwipeToDelete(recyclerView: RecyclerView) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -55,14 +55,29 @@ class NoteAdapter(
                 dX: Float,
                 dY: Float,
                 actionState: Int,
-                isCurrentlyActive: Boolean
+                isCurrentlyActive: Boolean,
             ) {
-                RecyclerViewSwipeDecorator.Builder(c,recyclerView,viewHolder,dX,dY,actionState,isCurrentlyActive)
+                RecyclerViewSwipeDecorator.Builder(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
                     .addSwipeLeftActionIcon(R.drawable.icon_delete)
-                    .setSwipeLeftActionIconTint(R.color.red)
                     .create()
                     .decorate()
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
 
             }
         }).attachToRecyclerView(recyclerView)

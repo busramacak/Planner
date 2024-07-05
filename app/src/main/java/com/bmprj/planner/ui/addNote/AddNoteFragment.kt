@@ -2,17 +2,12 @@ package com.bmprj.planner.ui.addNote
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupMenu
 import androidx.annotation.RequiresApi
-import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,7 +15,6 @@ import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddNoteBinding
 import com.bmprj.planner.databinding.ShareBottomLayoutBinding
-import com.bmprj.planner.databinding.ShareImageLayoutBinding
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.utils.clearFocus
 import com.bmprj.planner.utils.getDateTime
@@ -31,9 +25,6 @@ import com.bmprj.planner.utils.setRedoIcon
 import com.bmprj.planner.utils.toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 
 @AndroidEntryPoint
@@ -93,8 +84,6 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
     }
 
 
-
-
     private fun shareButtonClicked() {
         val bottomSheetBinding =
             ShareBottomLayoutBinding.inflate(LayoutInflater.from(requireContext()))
@@ -108,6 +97,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                 binding.title.text.toString(),
                 binding.content.text.toString()
             )
+            bottomSheetDialog.dismiss()
         }
         bottomSheetBinding.closeButton.setOnClickListener { bottomSheetDialog.dismiss() }
         bottomSheetDialog.show()
@@ -115,66 +105,9 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     @SuppressLint("Range")
     private fun shareNoteAsImage(title: String, content: String) {
-        val action = AddNoteFragmentDirections.actionAddNoteFragmentToShowNoteFragment(title,content)
+        val action =
+            AddNoteFragmentDirections.actionAddNoteFragmentToShowNoteFragment(title, content)
         findNavController().navigate(action)
-//        val imageLayoutBinding =
-//            ShareImageLayoutBinding.inflate(LayoutInflater.from(requireContext()))
-//
-//        imageLayoutBinding.title.text = title
-//        imageLayoutBinding.content.text = content
-//
-//        val width = 800  // Set your desired width
-//        val height = ViewGroup.LayoutParams.WRAP_CONTENT
-//        imageLayoutBinding.root.layoutParams = ViewGroup.LayoutParams(width, height)
-//
-//        val specWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY)
-//        val specHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.UNSPECIFIED)
-//        imageLayoutBinding.root.measure(specWidth, specHeight)
-//        imageLayoutBinding.root.layout(
-//            0,
-//            0,
-//            imageLayoutBinding.root.measuredWidth,
-//            imageLayoutBinding.root.measuredHeight
-//        )
-//
-//        val bitmap = Bitmap.createBitmap(
-//            imageLayoutBinding.root.measuredWidth,
-//            imageLayoutBinding.root.measuredHeight,
-//            Bitmap.Config.ARGB_8888
-//        )
-//
-//        val canvas = Canvas(bitmap)
-//        imageLayoutBinding.root.draw(canvas)
-//        saveBitmap(bitmap)
-    }
-
-    private fun saveBitmap(bitmap: Bitmap) {
-//        val fileName = "my_image.png"
-//        val file = File(requireContext().getExternalFilesDir(null), fileName)
-//        try {
-//            val stream = FileOutputStream(file)
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//            stream.flush()
-//            stream.close()
-//            shareImage(file)
-//        } catch (e: IOException) {
-//            e.printStackTrace()
-//        }
-    }
-
-    private fun shareImage(file: File) {
-
-//        val uri = FileProvider.getUriForFile(
-//            requireContext(),
-//            requireContext().packageName + ".provider",
-//            file
-//        )
-//        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-//            type = "image/png"
-//            putExtra(Intent.EXTRA_STREAM, uri)
-//            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-//        }
-//        startActivity(Intent.createChooser(shareIntent, "Share image"))
     }
 
     private fun shareNoteAsText(text: String) {

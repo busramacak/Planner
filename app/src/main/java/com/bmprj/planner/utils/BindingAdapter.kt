@@ -2,6 +2,7 @@ package com.bmprj.planner.utils
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Layout
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -67,10 +68,3 @@ fun ShapeableImageView.setRedoIcon(hasText:Boolean){
     )
 }
 
-fun ImageView.setVisibility(isVisible:Boolean){
-    this.visibility=if(isVisible){
-        View.VISIBLE
-    }else{
-        View.GONE
-    }
-}

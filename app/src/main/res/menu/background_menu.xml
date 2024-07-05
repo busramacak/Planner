@@ -4,11 +4,24 @@
     <item
         android:id="@+id/blue"
         android:title="@string/blue"
-        android:icon="@drawable/icon_color_circle"/>
+        android:icon="@drawable/icon_color_circle"
+        android:iconTint="@color/blue"/>
 
     <item
         android:id="@+id/green"
         android:title="@string/green"
         android:icon="@drawable/icon_color_circle"
-        android:iconTint="#166A0F"/>
+        android:iconTint="@color/green"/>
+
+    <item
+        android:id="@+id/pink"
+        android:title="@string/pink"
+        android:icon="@drawable/icon_color_circle"
+        android:iconTint="@color/pink"/>
+
+    <item
+        android:id="@+id/brown"
+        android:title="@string/brown"
+        android:icon="@drawable/icon_color_circle"
+        android:iconTint="@color/brown"/>
 </menu>
