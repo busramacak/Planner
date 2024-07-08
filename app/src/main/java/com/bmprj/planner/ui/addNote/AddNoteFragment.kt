@@ -46,7 +46,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
 
         with(binding) {
-            onFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
+            onFocus(content, undoButton, redoButton, shareButton,saveButton)
             content.setOnTouchListener { v, event ->
                 if (event.action == MotionEvent.ACTION_UP) {
                     if (!content.hasFocus()) {
@@ -58,7 +58,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                             undoButton,
                             redoButton,
                             shareButton,
-                            changeBackgroundButton
+                            saveButton
                         )
                     }
                 }
@@ -70,7 +70,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     undoButton,
                     redoButton,
                     shareButton,
-                    changeBackgroundButton
+                    saveButton
                 )
             }
             content.addTextChangedListener(addNoteViewModel.textWatcher)
@@ -162,13 +162,18 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 //        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
         with(binding) {
             if (noteId != 0) {
-                val note = Note(
-                    noteId = noteId,
-                    title = title.text.toString(),
-                    content = content.text.toString(),
-                    date = getDateTime()
-                )
-                addNoteViewModel.updateNote(note)
+                if(oldNote.content != content.text.toString()){
+                    val note = Note(
+                        noteId = noteId,
+                        title = title.text.toString(),
+                        content = content.text.toString(),
+                        date = getDateTime()
+                    )
+                    addNoteViewModel.updateNote(note)
+                } else {
+                    clearFocus(content, undoButton, redoButton, shareButton,saveButton)
+                }
+
             } else {
                 val note = Note(
                     title = title.text.toString(),
@@ -193,21 +198,20 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                     title.setText(it.title)
                     content.setText(it.content)
                     date.text = it.date
-//                    onFocus(content,undoButton,redoButton)
 
                 }
             )
             addNoteViewModel.insert.handleState(
                 onSucces = {
                     toast("not başarıyla kaydedildi.")
-                    clearFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
+                    clearFocus(content, undoButton, redoButton, shareButton,saveButton)
                 }
             )
 
             addNoteViewModel.updatee.handleState(
                 onSucces = {
                     toast("not başarıyla güncellendi.")
-                    clearFocus(content, undoButton, redoButton, shareButton, changeBackgroundButton)
+                    clearFocus(content, undoButton, redoButton, shareButton,saveButton)
                 }
             )
 

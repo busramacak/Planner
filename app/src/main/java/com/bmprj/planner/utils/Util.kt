@@ -15,13 +15,14 @@ fun Fragment.onFocus(
     undoButton: ImageView,
     redoButton: ImageView,
     shareButton: ImageView,
-    changeBackgroundButton: ImageView,
+    saveButton: ImageView
 ) {
     editText.requestFocus()
     undoButton.visibility = View.VISIBLE
     redoButton.visibility = View.VISIBLE
+    saveButton.visibility = View.VISIBLE
     shareButton.visibility = View.GONE
-    changeBackgroundButton.visibility = View.GONE
+
     editText.post {
         val imm =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -35,13 +36,13 @@ fun Fragment.clearFocus(
     undoButton: ImageView,
     redoButton: ImageView,
     shareButton: ImageView,
-    changeBackgroundButton: ImageView,
+    saveButton: ImageView
 ) {
     editText.clearFocus()
     undoButton.visibility = View.GONE
     redoButton.visibility = View.GONE
+    saveButton.visibility = View.GONE
     shareButton.visibility = View.VISIBLE
-    changeBackgroundButton.visibility = View.VISIBLE
     editText.post {
         val imm =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
