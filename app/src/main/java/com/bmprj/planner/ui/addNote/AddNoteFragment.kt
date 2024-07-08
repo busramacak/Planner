@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -79,6 +80,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
             undoButton.setOnClickListener { undoButtonClicked() }
             redoButton.setOnClickListener { redoButtonClicked() }
             shareButton.setOnClickListener { shareButtonClicked() }
+            initBackPress()
         }
 
     }
@@ -132,34 +134,50 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
         }
     }
 
+    private fun initBackPress() {
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backButtonClick()
+            }
+        })
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun backButtonClick() {
 
         val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
 
-        if (!binding.title.text.isNullOrEmpty() && ::oldNote.isInitialized
-            && (binding.title.text.toString() != oldNote.title
-                    || binding.content.text.toString() != oldNote.content)
-        ) {
-
-            val dialog = makeDialog()
-            dialog.setPositiveButton("OK") { _, _ ->
-                saveButtonClick()
-            }
-            dialog.setNegativeButton("NO") { _, _ ->
+        if (::oldNote.isInitialized) {
+            if (binding.title.text.toString() != oldNote.title || binding.content.text.toString() != oldNote.content) {
+                val dialog = makeDialog()
+                dialog.setPositiveButton("OK") { _, _ ->
+                    saveButtonClick()
+                }
+                dialog.setNegativeButton("NO") { _, _ ->
+                    findNavController().navigate(action)
+                }
+                dialog.show()
+            } else {
                 findNavController().navigate(action)
             }
-            dialog.show()
         } else {
-            findNavController().navigate(action)
+            if (!binding.title.text.isNullOrEmpty() || !binding.content.text.isNullOrEmpty()) {
+                val dialog = makeDialog()
+                dialog.setPositiveButton("OK") { _, _ ->
+                    saveButtonClick()
+                }
+                dialog.setNegativeButton("NO") { _, _ ->
+                    findNavController().navigate(action)
+                }
+                dialog.show()
+            } else {
+                findNavController().navigate(action)
+            }
         }
 
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun saveButtonClick() {
-
-//        val action = AddNoteFragmentDirections.actionAddNoteFragmentToNotesFragment()
         with(binding) {
             if (noteId != 0) {
                 if(oldNote.content != content.text.toString()){
@@ -173,7 +191,6 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                 } else {
                     clearFocus(content, undoButton, redoButton, shareButton,saveButton)
                 }
-
             } else {
                 val note = Note(
                     title = title.text.toString(),
@@ -182,11 +199,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
                 )
                 addNoteViewModel.insertNote(note)
             }
-//            shareButton.setVisibility(true)
-//            changeBackgroundButton.setVisibility(true)
-//            findNavController().navigate(action)
         }
-
     }
 
     private fun initLiveDataObservers() {
