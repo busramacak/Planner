@@ -10,6 +10,7 @@ import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentAddTaskBinding
 import com.bmprj.planner.model.Task
 import com.bmprj.planner.utils.getDatee
+import com.bmprj.planner.utils.setRandomAlarm
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -28,7 +29,6 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
         with(binding){
             createTaskButton.setOnClickListener{ saveButtonClick()}
             dateButton.setOnClickListener { dateButtonClick() }
-//            timeButton.setOnClickListener { timeButtonClick() }
             taskBackButton.setOnClickListener { backButtonClick() }
         }
     }
@@ -36,21 +36,6 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
     private fun backButtonClick() {
         val action = AddTaskFragmentDirections.actionAddTaskFragmentToTasksFragment()
         findNavController().navigate(action)
-    }
-
-    private fun getTimePicker() {
-        val timePicker = MaterialTimePicker.Builder()
-            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
-            .setTimeFormat(TimeFormat.CLOCK_24H)
-            .setTitleText("Select Time")
-            .build()
-
-        timePicker.addOnPositiveButtonClickListener {
-            val time = timePicker.hour.toString()+":"+timePicker.minute.toString()
-            binding.timeText.text=time
-        }
-
-        timePicker.show(parentFragmentManager,"tag")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -64,7 +49,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
 
         datePicker.addOnPositiveButtonClickListener {
             binding.dateText.text=it.getDatee()
-            getTimePicker()
+            setRandomAlarm(it.getDatee())
         }
     }
 
@@ -104,7 +89,6 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
                 description = descriptionEditText.text.toString(),
                 isChecked = false,
                 taskDate = dateText.text.toString(),
-                taskTime = timeText.text.toString(),
                 marketing = marketing,
                 meeting = meeting,
                 planning = planning,
@@ -114,7 +98,6 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(R.layout.fragment_a
             addTaskViewModel.insertTask(task)
             val action = AddTaskFragmentDirections.actionAddTaskFragmentToTasksFragment()
             findNavController().navigate(action)
-//            addTaskViewModel.getTask()
         }
 
     }

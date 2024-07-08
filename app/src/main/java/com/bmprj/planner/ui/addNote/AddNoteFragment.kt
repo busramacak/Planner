@@ -136,6 +136,7 @@ class AddNoteFragment : BaseFragment<FragmentAddNoteBinding>(R.layout.fragment_a
 
     private fun initBackPress() {
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            @RequiresApi(Build.VERSION_CODES.O)
             override fun handleOnBackPressed() {
                 backButtonClick()
             }

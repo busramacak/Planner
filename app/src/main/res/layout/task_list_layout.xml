@@ -33,7 +33,7 @@
 
             <ImageView
                 android:id="@+id/alarmIcon"
-                setVisibility="@{taskList.taskTime}"
+                setVisibility="@{taskList.taskDate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

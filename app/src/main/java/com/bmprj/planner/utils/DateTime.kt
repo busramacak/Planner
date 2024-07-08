@@ -21,8 +21,16 @@ private fun getDateTimes():String{
 }
 @RequiresApi(Build.VERSION_CODES.O)
 private fun getDate(l: Long):String{
-    val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+    val formatter = DateTimeFormatter.ofPattern("dd MM yyyy")
     val inst = Instant.ofEpochMilli(l)
     val date = LocalDateTime.ofInstant(inst, ZoneId.systemDefault()).format(formatter)
     return date
+}
+
+fun splitDate(dateString: String): Triple<Int, Int, Int> {
+    val parts = dateString.split(" ")
+    val day = parts[0].toInt()
+    val month = parts[1].toInt()
+    val year = parts[2].toInt()
+    return Triple(day, month, year)
 }

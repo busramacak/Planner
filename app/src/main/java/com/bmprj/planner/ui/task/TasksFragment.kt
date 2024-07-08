@@ -32,13 +32,6 @@ class TasksFragment : BaseFragment<FragmentTasksBinding>(R.layout.fragment_tasks
         taskViewModel.getAllTasks()
         initLiveDataObservers()
         initAdapter()
-        with(binding){
-//            addTaskButton.setOnClickListener{ addTaskClicked()}
-        }
-
-
-
-
     }
 
     private fun initAdapter() {
