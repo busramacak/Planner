@@ -4,6 +4,8 @@
     package="com.bmprj.planner">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
