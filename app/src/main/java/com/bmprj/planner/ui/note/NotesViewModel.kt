@@ -5,8 +5,7 @@ import com.bmprj.planner.utils.UiState
 import com.bmprj.planner.base.BaseViewModel
 import com.bmprj.planner.model.Note
 import com.bmprj.planner.model.Task
-import com.bmprj.planner.repository.note.NoteRepositoryImpl
-import com.bmprj.planner.repository.task.TaskRepositoryImpl
+import com.bmprj.planner.repository.note.NoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,8 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val noteRepositoryImpl: NoteRepositoryImpl,
-    private val taskRepositoryImpl: TaskRepositoryImpl
+    private val noteRepository: NoteRepository
 ):BaseViewModel() {
 
     private val _noteList = MutableStateFlow<UiState<List<Note>>>(UiState.Loading)
@@ -24,14 +22,14 @@ class NotesViewModel @Inject constructor(
 
 
     fun getAllNotes() = viewModelScope.launch {
-        noteRepositoryImpl.getAllNotes()
+        noteRepository.getAllNotes()
             .collect{
                 _noteList.emit(UiState.Success(it))
             }
     }
 
     fun deleteNote(note:Note) = viewModelScope.launch {
-        noteRepositoryImpl.deleteNote(note)
+        noteRepository.deleteNote(note)
             .collect{
         }
     }
