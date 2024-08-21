@@ -1,4 +1,4 @@
-package com.bmprj.planner
+package com.bmprj.planner.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.content.FileProvider
 import androidx.navigation.fragment.navArgs
+import com.bmprj.planner.R
 import com.bmprj.planner.base.BaseFragment
 import com.bmprj.planner.databinding.FragmentShowNoteBinding
 import com.bmprj.planner.databinding.ShareImageLayoutBinding
